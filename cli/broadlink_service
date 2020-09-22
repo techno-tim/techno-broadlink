@@ -1,0 +1,108 @@
+#!/usr/bin/env python
+
+import argparse
+import time
+import codecs
+import json
+import os
+import broadlink
+from broadlink.exceptions import ReadError, StorageError
+
+TICK = 32.84
+TIMEOUT = 30
+
+def format_durations(data):
+    result = ''
+    for i in range(0, len(data)):
+        if len(result) > 0:
+            result += ' '
+        result += ('+' if i % 2 == 0 else '-') + str(data[i])
+    return result
+
+def to_microseconds(bytes):
+    result = []
+    #  print bytes[0] # 0x26 = 38for IR
+    index = 4
+    while index < len(bytes):
+        chunk = bytes[index]
+        index += 1
+        if chunk == 0:
+            chunk = bytes[index]
+            chunk = 256 * chunk + bytes[index + 1]
+            index += 2
+        result.append(int(round(chunk * TICK)))
+        if chunk == 0x0d05:
+            break
+    return result
+
+def merge(source, destination):
+    for key, value in source.items():
+        if isinstance(value, dict):
+            # get node or create one
+            node = destination.setdefault(key, {})
+            merge(value, node)
+        else:
+            destination[key] = value
+
+    return destination
+
+def write_json_file(file, data):
+    os.makedirs(os.path.dirname(file), exist_ok=True)
+    with open(file, 'w') as json_file:
+        json.dump(data, json_file)
+
+def discover_devices():
+    device_list = []
+    parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
+    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    args = parser.parse_args()
+    print("Discovering...")
+    devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
+    for device in devices:
+        if device.auth():
+            # devices.append(device)
+            print("###########################################")
+            print(device.type)
+            print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
+                                                                        ''.join(format(x, '02x') for x in device.mac)))
+            print("Device file data (to be used with --device @filename in broadlink_cli) : ")
+            macAddress = ''.join(format(x, '02x') for x in device.mac)
+            device_dict = {
+                "ip": device.host[0],
+                "mac": ':'.join(macAddress[i:i+2] for i in range(0, len(macAddress), 2)),
+                "model": device.model,
+                "manufacturer": device.manufacturer
+                # "commands": []
+            }
+            device_list.append(device_dict)
+            file_name = macAddress + '.json'
+            script_dir = os.path.dirname(__file__)
+            file_path = os.path.join(script_dir, '../output/')
+            file_with_path = file_path + file_name
+            if os.path.exists(file_with_path):
+                # we need to merge
+                print('File exists, need to merge')
+                with open(file_with_path) as existing_file:
+                    data = json.load(existing_file)
+                    if data and data['mac']:
+                        # we have a mac address in the file, should be a valid file
+                        # merge new data into old
+                        merged_device = merge(device_dict,data)
+                        write_json_file(file_with_path, merged_device)
+                    else: 
+                        # not a vlid mac, we need to just write data
+                        write_json_file(file_with_path, device_dict)
+
+            else: 
+                # just write
+                print('File does not exist, creating')
+                # create the folder if it doesn't exist
+                write_json_file(file_with_path, device_dict)
+        else:
+            print("Error authenticating with device : {}".format(device.host))
+    
+    return device_list
+
+discover_devices()
