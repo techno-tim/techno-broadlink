@@ -73,8 +73,8 @@ def discover_devices():
                 "ip": device.host[0],
                 "mac": ':'.join(macAddress[i:i+2] for i in range(0, len(macAddress), 2)),
                 "model": device.model,
-                "manufacturer": device.manufacturer
-                # "commands": []
+                "manufacturer": device.manufacturer,
+                "commands": []
             }
             device_list.append(device_dict)
             file_name = macAddress + '.json'
