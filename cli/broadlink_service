@@ -47,6 +47,7 @@ def merge(source, destination):
     return destination
 
 def write_json_file(file, data):
+    # create folder if it doesn't exist
     os.makedirs(os.path.dirname(file), exist_ok=True)
     with open(file, 'w') as json_file:
         json.dump(data, json_file)
@@ -69,14 +70,15 @@ def discover_devices():
                                                                         ''.join(format(x, '02x') for x in device.mac)))
             print("Device file data (to be used with --device @filename in broadlink_cli) : ")
             macAddress = ''.join(format(x, '02x') for x in device.mac)
-            device_dict = {
+            my_device = {
                 "ip": device.host[0],
                 "mac": ':'.join(macAddress[i:i+2] for i in range(0, len(macAddress), 2)),
                 "model": device.model,
                 "manufacturer": device.manufacturer,
-                "commands": []
+                "commands": [],
+                "name": '',
             }
-            device_list.append(device_dict)
+            device_list.append(my_device)
             file_name = macAddress + '.json'
             script_dir = os.path.dirname(__file__)
             file_path = os.path.join(script_dir, '../output/')
@@ -89,17 +91,16 @@ def discover_devices():
                     if data and data['mac']:
                         # we have a mac address in the file, should be a valid file
                         # merge new data into old
-                        merged_device = merge(device_dict,data)
+                        merged_device = merge(my_device,data)
                         write_json_file(file_with_path, merged_device)
                     else: 
                         # not a vlid mac, we need to just write data
-                        write_json_file(file_with_path, device_dict)
+                        write_json_file(file_with_path, my_device)
 
             else: 
                 # just write
                 print('File does not exist, creating')
-                # create the folder if it doesn't exist
-                write_json_file(file_with_path, device_dict)
+                write_json_file(file_with_path, my_device)
         else:
             print("Error authenticating with device : {}".format(device.host))
     
