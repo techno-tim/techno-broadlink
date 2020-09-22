@@ -195,28 +195,6 @@ def send_command(ip_address, command):
                 print('Found a match')
                 print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
                                                                         ''.join(format(x, '02x') for x in device.mac)))
-                # device.enter_learning()
-                # print("Learning...")
-                # start = time.time()
-                # while time.time() - start < TIMEOUT:
-                #     time.sleep(1)
-                #     try:
-                #         data = device.check_data()
-                #     except (ReadError, StorageError):
-                #         continue
-                #     else:
-                #         break
-                # else:
-                #     print("No data received...")
-                #     exit(1)
-
-                # learned = format_durations(to_microseconds(bytearray(data))) \
-                # # if durations \
-                # # somerthing = ''.join(format(x, '02x') for x in bytearray(data))
-                # print("###########################################")
-                # print("Learned!")
-                # print(learned)
-
                 # we need to find the device and add a command that we just learned
                 mac_address = ''.join(format(x, '02x') for x in device.mac)
 
@@ -229,23 +207,14 @@ def send_command(ip_address, command):
                         print('File exists')
                         with open(file_with_path) as existing_file:
                             data = json.load(existing_file)
-                            if data and data['mac']:
-                                # my_device = {
-                                #     "ip": device.host[0],
-                                #     "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
-                                #     "model": device.model,
-                                #     "manufacturer": device.manufacturer,
-                                #     "commands": [{ "name": command, "data": learned }],
-                                # }
-                                # we have a mac address in the file, should be a valid file
-                                # merge new data into old
-                                # merged_device = merge(my_device, data)
-                                # write_json_file(file_with_path, merged_device)
-                                command = data['commands'][0]['data']
-                                device.send_data(bytearray.fromhex(''.join(command)))
+                            existing_command = list(filter(lambda x: x['name'] == command, data['commands']))
+                            if data and data['mac'] and existing_command and existing_command[0] and existing_command[0]['name']:
+                                device.send_data(bytearray.fromhex(''.join(existing_command[0]['data'])))
+                                print("###########################################")
+                                print("Copmmand sent!")
                             else:
                                 # not a vlid mac, we need to just write data
-                                print('Not a valid mac address')
+                                print('No command with that name')
         else:
             print("Error authenticating with device : {}".format(device.host))
 
@@ -253,6 +222,5 @@ def send_command(ip_address, command):
 
 
 # learn_command('192.168.0.98', 'turn_on')
-send_command('192.168.0.98', 'turn_on')
-
+# send_command('192.168.0.98', 'turn_on')
 # discover_devices()
