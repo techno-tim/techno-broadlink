@@ -6,6 +6,8 @@ import codecs
 import json
 import os
 import broadlink
+import base64
+
 from broadlink.exceptions import ReadError, StorageError
 
 TICK = 32.84
@@ -51,6 +53,8 @@ def write_json_file(file, data):
     os.makedirs(os.path.dirname(file), exist_ok=True)
     with open(file, 'w') as json_file:
         json.dump(data, json_file)
+        print('Upddated file')
+
 
 def discover_devices():
     device_list = []
@@ -69,17 +73,17 @@ def discover_devices():
             print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
                                                                         ''.join(format(x, '02x') for x in device.mac)))
             print("Device file data (to be used with --device @filename in broadlink_cli) : ")
-            macAddress = ''.join(format(x, '02x') for x in device.mac)
+            mac_address = ''.join(format(x, '02x') for x in device.mac)
             my_device = {
                 "ip": device.host[0],
-                "mac": ':'.join(macAddress[i:i+2] for i in range(0, len(macAddress), 2)),
+                "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
                 "model": device.model,
                 "manufacturer": device.manufacturer,
                 "commands": [],
                 "name": '',
             }
             device_list.append(my_device)
-            file_name = macAddress + '.json'
+            file_name = mac_address + '.json'
             script_dir = os.path.dirname(__file__)
             file_path = os.path.join(script_dir, '../output/')
             file_with_path = file_path + file_name
@@ -93,17 +97,162 @@ def discover_devices():
                         # merge new data into old
                         merged_device = merge(my_device,data)
                         write_json_file(file_with_path, merged_device)
-                    else: 
+                    else:
                         # not a vlid mac, we need to just write data
                         write_json_file(file_with_path, my_device)
 
-            else: 
+            else:
                 # just write
                 print('File does not exist, creating')
                 write_json_file(file_with_path, my_device)
         else:
             print("Error authenticating with device : {}".format(device.host))
-    
-    return device_list
 
-discover_devices()
+
+def learn_command(ip_address, command):
+    parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
+    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    args = parser.parse_args()
+    print("Discovering...")
+    devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
+    for device in devices:
+        if device.auth():
+            if device.host[0] == ip_address:
+                # found a match
+                print("###########################################")
+                print('Found a match')
+                print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
+                                                                        ''.join(format(x, '02x') for x in device.mac)))
+                device.enter_learning()
+                print("Learning...")
+                start = time.time()
+                while time.time() - start < TIMEOUT:
+                    time.sleep(1)
+                    try:
+                        data = device.check_data()
+                    except (ReadError, StorageError):
+                        continue
+                    else:
+                        break
+                else:
+                    print("No data received...")
+                    exit(1)
+
+                learned = format_durations(to_microseconds(bytearray(data)))
+                learned = ''.join(format(x, '02x') for x in bytearray(data))
+                # if durations \
+                # somerthing = ''.join(format(x, '02x') for x in bytearray(data))
+                print("###########################################")
+                print("Learned!")
+                print(learned)
+
+                # we need to find the device and add a command that we just learned
+                mac_address = ''.join(format(x, '02x') for x in device.mac)
+
+                file_name = mac_address + '.json'
+                script_dir = os.path.dirname(__file__)
+                file_path = os.path.join(script_dir, '../output/')
+                file_with_path = file_path + file_name
+                if os.path.exists(file_with_path):
+                        # we need to merge
+                        print('File exists')
+                        with open(file_with_path) as existing_file:
+                            data = json.load(existing_file)
+                            if data and data['mac']:
+                                my_device = {
+                                    "ip": device.host[0],
+                                    "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
+                                    "model": device.model,
+                                    "manufacturer": device.manufacturer,
+                                    "commands": [{ "name": command, "data": learned }],
+                                }
+                                # we have a mac address in the file, should be a valid file
+                                # merge new data into old
+                                merged_device = merge(my_device, data)
+                                write_json_file(file_with_path, merged_device)
+                            else:
+                                # not a vlid mac, we need to just write data
+                                print('Not a valid mac address')
+        else:
+            print("Error authenticating with device : {}".format(device.host))
+
+
+def send_command(ip_address, command):
+    parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
+    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    args = parser.parse_args()
+    print("Discovering...")
+    devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
+    for device in devices:
+        if device.auth():
+            if device.host[0] == ip_address:
+                # found a match
+                print("###########################################")
+                print('Found a match')
+                print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
+                                                                        ''.join(format(x, '02x') for x in device.mac)))
+                # device.enter_learning()
+                # print("Learning...")
+                # start = time.time()
+                # while time.time() - start < TIMEOUT:
+                #     time.sleep(1)
+                #     try:
+                #         data = device.check_data()
+                #     except (ReadError, StorageError):
+                #         continue
+                #     else:
+                #         break
+                # else:
+                #     print("No data received...")
+                #     exit(1)
+
+                # learned = format_durations(to_microseconds(bytearray(data))) \
+                # # if durations \
+                # # somerthing = ''.join(format(x, '02x') for x in bytearray(data))
+                # print("###########################################")
+                # print("Learned!")
+                # print(learned)
+
+                # we need to find the device and add a command that we just learned
+                mac_address = ''.join(format(x, '02x') for x in device.mac)
+
+                file_name = mac_address + '.json'
+                script_dir = os.path.dirname(__file__)
+                file_path = os.path.join(script_dir, '../output/')
+                file_with_path = file_path + file_name
+                if os.path.exists(file_with_path):
+                        # we need to merge
+                        print('File exists')
+                        with open(file_with_path) as existing_file:
+                            data = json.load(existing_file)
+                            if data and data['mac']:
+                                # my_device = {
+                                #     "ip": device.host[0],
+                                #     "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
+                                #     "model": device.model,
+                                #     "manufacturer": device.manufacturer,
+                                #     "commands": [{ "name": command, "data": learned }],
+                                # }
+                                # we have a mac address in the file, should be a valid file
+                                # merge new data into old
+                                # merged_device = merge(my_device, data)
+                                # write_json_file(file_with_path, merged_device)
+                                command = data['commands'][0]['data']
+                                device.send_data(bytearray.fromhex(''.join(command)))
+                            else:
+                                # not a vlid mac, we need to just write data
+                                print('Not a valid mac address')
+        else:
+            print("Error authenticating with device : {}".format(device.host))
+
+
+
+
+# learn_command('192.168.0.98', 'turn_on')
+send_command('192.168.0.98', 'turn_on')
+
+# discover_devices()
