@@ -7,7 +7,8 @@ import json
 import os
 import broadlink
 import base64
-
+import uuid
+from deepmerge import always_merger
 from broadlink.exceptions import ReadError, StorageError
 
 TICK = 32.84
@@ -36,17 +37,6 @@ def to_microseconds(bytes):
         if chunk == 0x0d05:
             break
     return result
-
-def merge(source, destination):
-    for key, value in source.items():
-        if isinstance(value, dict):
-            # get node or create one
-            node = destination.setdefault(key, {})
-            merge(value, node)
-        else:
-            destination[key] = value
-
-    return destination
 
 def write_json_file(file, data):
     # create folder if it doesn't exist
@@ -95,7 +85,7 @@ def discover_devices():
                     if data and data['mac']:
                         # we have a mac address in the file, should be a valid file
                         # merge new data into old
-                        merged_device = merge(my_device,data)
+                        merged_device = always_merger.merge(my_device,data)
                         write_json_file(file_with_path, merged_device)
                     else:
                         # not a vlid mac, we need to just write data
@@ -109,7 +99,7 @@ def discover_devices():
             print("Error authenticating with device : {}".format(device.host))
 
 
-def learn_command(ip_address, command):
+def learn_command(ip_address, command_name):
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
     parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
@@ -166,11 +156,11 @@ def learn_command(ip_address, command):
                                     "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
                                     "model": device.model,
                                     "manufacturer": device.manufacturer,
-                                    "commands": [{ "name": command, "data": learned }],
+                                    "commands": [{ "id": str(uuid.uuid4()), "name": command_name, "data": learned }],
                                 }
                                 # we have a mac address in the file, should be a valid file
                                 # merge new data into old
-                                merged_device = merge(my_device, data)
+                                merged_device = always_merger.merge(my_device, data)
                                 write_json_file(file_with_path, merged_device)
                             else:
                                 # not a vlid mac, we need to just write data
@@ -179,7 +169,7 @@ def learn_command(ip_address, command):
             print("Error authenticating with device : {}".format(device.host))
 
 
-def send_command(ip_address, command):
+def send_command(ip_address, command_id):
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
     parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
@@ -207,11 +197,11 @@ def send_command(ip_address, command):
                         print('File exists')
                         with open(file_with_path) as existing_file:
                             data = json.load(existing_file)
-                            existing_command = list(filter(lambda x: x['name'] == command, data['commands']))
+                            existing_command = list(filter(lambda x: x['id'] == command_id, data['commands']))
                             if data and data['mac'] and existing_command and existing_command[0] and existing_command[0]['name']:
                                 device.send_data(bytearray.fromhex(''.join(existing_command[0]['data'])))
                                 print("###########################################")
-                                print("Copmmand sent!")
+                                print("command sent!")
                             else:
                                 # not a vlid mac, we need to just write data
                                 print('No command with that name')
@@ -219,8 +209,52 @@ def send_command(ip_address, command):
             print("Error authenticating with device : {}".format(device.host))
 
 
+def delete_command(ip_address, command_id):
+    parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
+    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    args = parser.parse_args()
+    print("Discovering...")
+    devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
+    for device in devices:
+        if device.auth():
+            if device.host[0] == ip_address:
+                # found a match
+                print("###########################################")
+                print('Found a match')
+                print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
+                                                                        ''.join(format(x, '02x') for x in device.mac)))
+                mac_address = ''.join(format(x, '02x') for x in device.mac)
+                file_name = mac_address + '.json'
+                script_dir = os.path.dirname(__file__)
+                file_path = os.path.join(script_dir, '../output/')
+                file_with_path = file_path + file_name
+                if os.path.exists(file_with_path):
+                    # we can update it
+                    print('File exists, need update commands')
+                    with open(file_with_path) as existing_file:
+                        data = json.load(existing_file)
+                        if data and data['mac'] and data['commands'] and data['commands'][0]:
+                            # we have some commands
+                            remaining_commands = list(filter(lambda x: x['id'] != command_id, data['commands']))
+                            updated_device = {
+                                "ip": data['ip'],
+                                "mac": data['mac'],
+                                "model": data['model'],
+                                "manufacturer": data['manufacturer'],
+                                "commands": remaining_commands,
+                                "name": data['name'],
+                            }
+                            write_json_file(file_with_path, updated_device)
+        else:
+            print("Error authenticating with device : {}".format(device.host))
 
 
-# learn_command('192.168.0.98', 'turn_on')
-# send_command('192.168.0.98', 'turn_on')
+
+
+
+# learn_command('192.168.0.98', '13')
+# send_command('192.168.0.98', '37d70d26-abb3-42a0-b964-218292a6ff88')
+# delete_command('192.168.0.98', '137e78ae-f471-42fd-82b3-d8c010a95772')
 # discover_devices()
