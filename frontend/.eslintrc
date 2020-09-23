@@ -1,0 +1,18 @@
+{
+  "extends": ["react-app"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "jsxSingleQuote": false,
+      "arrowParens": "avoid"
+      }],
+      "no-console": ["error", { "allow": ["warn", "error"] }],
+      "no-alert": "error",
+      "no-debugger": "error",
+      "prefer-const": "error",
+      "prefer-arrow-callback": "error",
+      "no-unused-vars": "error",
+      "import/order": ["error", {}]
+  }
+}
