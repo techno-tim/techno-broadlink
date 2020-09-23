@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "ae790a30-8212-41cf-b481-3bf944ae5587",
+		"name": "techno-broadlink",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "LEARN command",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandName\" : \"techno time!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/learn",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"learn"
+					]
+				},
+				"description": "Learn a new command.  Returns the device which leanred the new command"
+			},
+			"response": []
+		},
+		{
+			"name": "DISCOVER devices",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/discover",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"discover"
+					]
+				},
+				"description": "Discover all devices.  This will return all discovered devices and configurations"
+			},
+			"response": []
+		},
+		{
+			"name": "COMMAND send",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandId\": \"5ffef319-51c4-408c-b5cc-a28ffdc9cce6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/command",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"command"
+					]
+				},
+				"description": "Discover all devices.  This will return all discovered devices and configurations"
+			},
+			"response": []
+		},
+		{
+			"name": "COMMAND delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandId\": \"5ffef319-51c4-408c-b5cc-a28ffdc9cce6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/command",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"command"
+					]
+				},
+				"description": "Discover all devices.  This will return all discovered devices and configurations"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

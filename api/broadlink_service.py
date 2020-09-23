@@ -12,7 +12,7 @@ from deepmerge import always_merger
 from broadlink.exceptions import ReadError, StorageError
 
 TICK = 32.84
-TIMEOUT = 30
+TIMEOUT = 10
 
 def format_durations(data):
     result = ''
@@ -43,7 +43,7 @@ def write_json_file(file, data):
     os.makedirs(os.path.dirname(file), exist_ok=True)
     with open(file, 'w') as json_file:
         json.dump(data, json_file)
-        print('Upddated file')
+        print('Updated file')
 
 
 def discover_devices():
@@ -98,6 +98,7 @@ def discover_devices():
         else:
             print("Error authenticating with device : {}".format(device.host))
 
+    return device_list
 
 def learn_command(ip_address, command_name):
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
@@ -162,6 +163,7 @@ def learn_command(ip_address, command_name):
                                 # merge new data into old
                                 merged_device = always_merger.merge(my_device, data)
                                 write_json_file(file_with_path, merged_device)
+                                return merged_device
                             else:
                                 # not a vlid mac, we need to just write data
                                 print('Not a valid mac address')
@@ -202,9 +204,20 @@ def send_command(ip_address, command_id):
                                 device.send_data(bytearray.fromhex(''.join(existing_command[0]['data'])))
                                 print("###########################################")
                                 print("command sent!")
+                                command_status = {
+                                    "success": True,
+                                    "command": existing_command
+                                }
+                                return command_status
                             else:
                                 # not a vlid mac, we need to just write data
                                 print('No command with that name')
+                                command_status = {
+                                    "success": False,
+                                    "commands": existing_command
+                                }
+                                return command_status
+
         else:
             print("Error authenticating with device : {}".format(device.host))
 
@@ -247,14 +260,9 @@ def delete_command(ip_address, command_id):
                                 "name": data['name'],
                             }
                             write_json_file(file_with_path, updated_device)
+                            command_status = {
+                                "commands": remaining_commands
+                            }
+                            return command_status
         else:
             print("Error authenticating with device : {}".format(device.host))
-
-
-
-
-
-# learn_command('192.168.0.98', '13')
-# send_command('192.168.0.98', '37d70d26-abb3-42a0-b964-218292a6ff88')
-# delete_command('192.168.0.98', '137e78ae-f471-42fd-82b3-d8c010a95772')
-# discover_devices()
