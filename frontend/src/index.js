@@ -12,16 +12,14 @@ import App from './components/App';
 const store = configureStore();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <Route path="/" exact component={App} />
-        </Router>
-      </MuiThemeProvider>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Route path="/" exact component={App} />
+      </Router>
+    </MuiThemeProvider>
+  </Provider>,
   document.getElementById('root')
 );
 

@@ -4,6 +4,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { useDispatch, useSelector } from 'react-redux';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Fade from '@material-ui/core/Fade';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -16,17 +18,29 @@ import {
   requestDevices,
   setSelectedDevice,
 } from '../store/broadlink/actionCreator';
+import { setShowAlert } from '../store/layout/actionCreator';
 import Device from './Device';
 import SkeletonDevice from './SkeletonDevice';
 
 function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(requestDevices());
   }, [dispatch]);
-  const { isBusy } = useSelector(state => state.layout);
+
+  const { isBusy, alert } = useSelector(state => state.layout);
   const { devices, selectedDevice } = useSelector(state => state.broadlink);
+
+  const handleCloseAlert = () => {
+    dispatch(setShowAlert('success', '', false));
+  };
+
+  const Alert = props => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  };
+
   return (
     <>
       <AppBar position="static">
@@ -85,7 +99,7 @@ function App() {
 
           {devices.map(device => {
             return (
-              <Grid item>
+              <Grid item key={device.mac}>
                 <Device
                   ip={device.ip}
                   mac={device.mac}
@@ -104,6 +118,13 @@ function App() {
         <Box pt={2} pb={2}>
           <Typography variant="h6">Commands</Typography>
         </Box>
+        <Snackbar
+          open={alert.show}
+          autoHideDuration={5000}
+          onClose={handleCloseAlert}
+        >
+          <Alert severity={alert.severity}>{alert.message}</Alert>
+        </Snackbar>
       </Box>
     </>
   );

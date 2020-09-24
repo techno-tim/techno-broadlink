@@ -1,5 +1,5 @@
 import { discoverDevices } from '../../services/broadlink';
-import { setIsBusy } from '../layout/actionCreator';
+import { setIsBusy, setShowAlert } from '../layout/actionCreator';
 import { GET_DEVICES, SET_SELECTED_DEVICE } from './actionType';
 
 export const requestDevices = () => {
@@ -9,8 +9,15 @@ export const requestDevices = () => {
       type: GET_DEVICES,
       payload: discoverDevices(),
     })
-      .then(() => {
+      .then(data => {
         dispatch(setIsBusy(false));
+        dispatch(
+          setShowAlert(
+            'success',
+            `Discovered ${data.value.length} devices`,
+            true
+          )
+        );
       })
       .catch(() => {
         dispatch(setIsBusy(false));
