@@ -1,6 +1,6 @@
 import { discoverDevices } from '../../services/broadlink';
 import { setIsBusy } from '../layout/actionCreator';
-import { GET_DEVICES } from './actionType';
+import { GET_DEVICES, SET_SELECTED_DEVICE } from './actionType';
 
 export const requestDevices = () => {
   return async dispatch => {
@@ -15,5 +15,16 @@ export const requestDevices = () => {
       .catch(() => {
         dispatch(setIsBusy(false));
       });
+  };
+};
+
+export const setSelectedDevice = selectedDevice => {
+  return async dispatch => {
+    await dispatch({
+      type: SET_SELECTED_DEVICE,
+      payload: {
+        selectedDevice,
+      },
+    });
   };
 };

@@ -1,8 +1,9 @@
 import update from 'immutability-helper';
-import { GET_DEVICES_FULFILLED } from './actionType';
+import { GET_DEVICES_FULFILLED, SET_SELECTED_DEVICE } from './actionType';
 
 export const initialState = {
   devices: [],
+  selectedDevice: {},
 };
 
 export default function broadlinkReducer(state = initialState, action = {}) {
@@ -12,6 +13,15 @@ export default function broadlinkReducer(state = initialState, action = {}) {
       return update(state, {
         devices: {
           $set: payload,
+        },
+      });
+    }
+    case SET_SELECTED_DEVICE: {
+      const { payload } = action;
+      const { selectedDevice } = payload;
+      return update(state, {
+        selectedDevice: {
+          $set: selectedDevice,
         },
       });
     }

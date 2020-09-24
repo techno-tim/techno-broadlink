@@ -8,7 +8,7 @@ export default function SkeletonDevice() {
   const classes = useStyles();
   return (
     <Paper className={classes.paper}>
-      <Skeleton animation="wave" variant="rect" width={160} height={160} />
+      <Skeleton variant="rect" width={160} height={160} />
     </Paper>
   );
 }

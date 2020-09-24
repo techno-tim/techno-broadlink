@@ -11,7 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { requestDevices } from '../store/broadlink/actionCreator';
+import {
+  requestDevices,
+  setSelectedDevice,
+} from '../store/broadlink/actionCreator';
 import Device from './Device';
 import SkeletonDevice from './SkeletonDevice';
 
@@ -22,7 +25,7 @@ function App() {
     dispatch(requestDevices());
   }, [dispatch]);
   const { isBusy } = useSelector(state => state.layout);
-  const { devices } = useSelector(state => state.broadlink);
+  const { devices, selectedDevice } = useSelector(state => state.broadlink);
   return (
     <>
       <AppBar position="static">
@@ -43,7 +46,11 @@ function App() {
             aria-label="discover devices"
             disabled={isBusy}
             edge="start"
-            onClick={() => dispatch(requestDevices())}
+            onClick={() => {
+              // I think we should deselect when refreshing
+              dispatch(setSelectedDevice({}));
+              dispatch(requestDevices());
+            }}
           >
             <RefreshIcon />
           </IconButton>
@@ -77,9 +84,11 @@ function App() {
                   ip={device.ip}
                   mac={device.mac}
                   name={device.name}
-                  selected={true}
+                  selected={selectedDevice && selectedDevice.mac === device.mac}
                   manufacturer={device.manufacturer}
                   model={device.model}
+                  handleClick={() => dispatch(setSelectedDevice(device))}
+                  disabled={isBusy}
                 />
               </Grid>
             );
