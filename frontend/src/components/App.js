@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
   requestDevices,
   setSelectedDevice,
@@ -41,19 +42,24 @@ function App() {
 
       <Box mr={8} ml={8} mt={2} mb={2} component={Grid}>
         <Grid container direction="row" alignItems="center">
-          <IconButton
-            color="primary"
-            aria-label="discover devices"
-            disabled={isBusy}
-            edge="start"
-            onClick={() => {
-              // I think we should deselect when refreshing
-              dispatch(setSelectedDevice({}));
-              dispatch(requestDevices());
-            }}
-          >
-            <RefreshIcon />
-          </IconButton>
+          <Tooltip title="Discover Devices">
+            <span>
+              <IconButton
+                color="primary"
+                aria-label="discover devices"
+                disabled={isBusy}
+                edge="start"
+                onClick={() => {
+                  // I think we should deselect when refreshing
+                  dispatch(setSelectedDevice({}));
+                  dispatch(requestDevices());
+                }}
+              >
+                <RefreshIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+
           {isBusy && (
             <Typography variant="h5">Discovering devices...</Typography>
           )}
