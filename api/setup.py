@@ -13,7 +13,7 @@ setup(
     packages=find_packages(),
     scripts=[],
     install_requires=['cryptography>=2.1.1'],
-    description='A Web API and UI to control braodlink devices',
+    description='A Web API and UI to control broadlink devices',
     include_package_data=True,
     zip_safe=False,
 )
