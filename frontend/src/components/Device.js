@@ -48,11 +48,13 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     minWidth: 160,
+    minheight: 160,
   },
   selectedRoot: {
     backgroundColor: theme.palette.background.paper,
     border: `1px solid ${theme.palette.secondary.main}`,
     minWidth: 160,
+    minheight: 160,
   },
   paper: {
     margin: theme.spacing(1),

@@ -21,6 +21,7 @@ import {
 import { setShowAlert } from '../store/layout/actionCreator';
 import Device from './Device';
 import SkeletonDevice from './SkeletonDevice';
+import CommandList from './CommandList';
 
 function App() {
   const classes = useStyles();
@@ -115,9 +116,17 @@ function App() {
           })}
         </Box>
         <Divider />
-        <Box pt={2} pb={2}>
-          <Typography variant="h6">Commands</Typography>
-        </Box>
+        {selectedDevice && selectedDevice.commands && (
+          <>
+            <Box pt={2} pb={2}>
+              <Typography variant="h6">Commands</Typography>
+            </Box>
+            <Box>
+              <CommandList commands={selectedDevice.commands} />
+            </Box>
+          </>
+        )}
+
         <Snackbar
           open={alert.show}
           autoHideDuration={5000}
