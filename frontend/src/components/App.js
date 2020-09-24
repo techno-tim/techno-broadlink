@@ -32,7 +32,7 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Braodlink Control
+            Broadlink Control
           </Typography>
         </Toolbar>
       </AppBar>
