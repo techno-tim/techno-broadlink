@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
   selectedRoot: {
     backgroundColor: theme.palette.background.paper,
-    border: `1px solid ${theme.palette.primary.main}`,
+    border: `1px solid ${theme.palette.secondary.main}`,
     minWidth: 160,
   },
   paper: {

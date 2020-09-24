@@ -45,7 +45,7 @@ function App() {
           <Tooltip title="Discover Devices">
             <span>
               <IconButton
-                color="primary"
+                color="secondary"
                 aria-label="discover devices"
                 disabled={isBusy}
                 edge="start"
