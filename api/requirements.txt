@@ -4,6 +4,7 @@ attrs==17.4.0
 Automat==0.6.0
 blinker==1.4
 broadlink==0.14.1
+broadlink-service==0.0.1
 certifi==2018.1.18
 cffi==1.14.3
 chardet==3.0.4
@@ -19,7 +20,7 @@ deepmerge==0.1.0
 distro-info===0.18ubuntu0.18.04.1
 dukpy==0.2.3
 Flask==1.1.2
-Flask-Cors==3.0.7
+Flask-Cors==3.0.9
 httplib2==0.9.2
 hyperlink==17.3.1
 idna==2.6
@@ -80,6 +81,7 @@ typing-extensions==3.7.4.3
 ufw==0.36
 unattended-upgrades==0.1
 urllib3==1.22
+waitress==1.4.4
 wcwidth==0.1.7
 Werkzeug==1.0.1
 wrapt==1.12.1
