@@ -14,7 +14,12 @@ export default function CommandList(props) {
   const { commands, handleSendClick, handleDeleteClick, disabled } = props;
   return (
     <List className={classes.root}>
-      <Grid container alignItems="flex-start" justify="space-between">
+      <Grid
+        container
+        alignItems="flex-start"
+        justify="space-between"
+        direction="row"
+      >
         {commands.map(command => {
           return (
             <React.Fragment key={command.id}>
