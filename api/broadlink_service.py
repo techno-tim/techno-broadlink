@@ -129,7 +129,9 @@ def learn_command(ip_address, command_name):
                         break
                 else:
                     print("No data received...")
-                    exit(1)
+                    # TODO handle better
+                    return Exception('No data received...')
+                    # exit(1)
 
                 learned = format_durations(to_microseconds(bytearray(data)))
                 learned = ''.join(format(x, '02x') for x in bytearray(data))
@@ -200,7 +202,7 @@ def send_command(ip_address, command_id):
                         with open(file_with_path) as existing_file:
                             data = json.load(existing_file)
                             existing_command = list(filter(lambda x: x['id'] == command_id, data['commands']))
-                            if data and data['mac'] and existing_command and existing_command[0] and existing_command[0]['name']:
+                            if data and data['mac'] and existing_command and existing_command[0] and existing_command[0]['id']:
                                 device.send_data(bytearray.fromhex(''.join(existing_command[0]['data'])))
                                 print("###########################################")
                                 print("command sent!")
@@ -211,7 +213,7 @@ def send_command(ip_address, command_id):
                                 return command_status
                             else:
                                 # not a vlid mac, we need to just write data
-                                print('No command with that name')
+                                print('No command with that id exists')
                                 command_status = {
                                     "success": False,
                                     "commands": existing_command

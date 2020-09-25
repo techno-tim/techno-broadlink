@@ -6,6 +6,10 @@ from broadlink_service import discover_devices, learn_command, send_command, del
 app = Flask(__name__)
 CORS(app)
 
+
+def handle_bad_request(e):
+    return 'bad request!', 400
+
 @app.route('/discover', methods=['POST'])
 def discover():
     return jsonify(discover_devices())
@@ -18,18 +22,25 @@ def learn():
     return jsonify(learn_command(ip_address, command_name))
 
 
-@app.route('/command', methods=['POST', 'DELETE'])
+@app.route('/command', methods=['POST'])
 def command():
-    if request.method == 'POST':
-        req_data = request.get_json()
-        ip_address = req_data['ipAddress']
-        command_id = req_data['commandId']
-        return jsonify(send_command(ip_address, command_id))
-    elif request.method == 'DELETE':
-        req_data = request.get_json()
-        ip_address = req_data['ipAddress']
-        command_id = req_data['commandId']
-        return jsonify(delete_command(ip_address, command_id))
+    request.method == 'POST'
+    req_data = request.get_json()
+    ip_address = req_data['ipAddress']
+    command_id = req_data['commandId']
+    return jsonify(send_command(ip_address, command_id))
+
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    request.method == 'POST'
+    req_data = request.get_json()
+    ip_address = req_data['ipAddress']
+    command_id = req_data['commandId']
+    return jsonify(delete_command(ip_address, command_id))
+
+
+app.register_error_handler(400, handle_bad_request)
 
 # dev server
 # if __name__ == '__main__':
