@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 
 export default function CommandList(props) {
   const classes = useStyles();
-  const { commands, handleSendClick, handleDeleteClick } = props;
+  const { commands, handleSendClick, handleDeleteClick, disabled } = props;
   return (
     <List className={classes.root}>
       <Grid container alignItems="flex-start" justify="space-between">
@@ -30,6 +30,7 @@ export default function CommandList(props) {
                   className={classes.button}
                   startIcon={<PlayCircleOutlineIcon />}
                   onClick={() => handleSendClick(command.id)}
+                  disabled={disabled}
                 >
                   Send
                 </Button>
@@ -39,6 +40,7 @@ export default function CommandList(props) {
                   className={classes.button}
                   startIcon={<HighlightOffIcon />}
                   onClick={() => handleDeleteClick(command.id)}
+                  disabled={disabled}
                 >
                   Delete
                 </Button>

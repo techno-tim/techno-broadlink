@@ -17,6 +17,8 @@ export default function LearnDialog(props) {
     handleLearn,
     learnInput,
     handleInputChange,
+    cancelDisabled,
+    inputDisabled,
   } = props;
   return (
     <>
@@ -28,7 +30,8 @@ export default function LearnDialog(props) {
         <DialogTitle id="form-dialog-title">Learn Command</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enter a command name to teach your device.
+            Enter a command name to teach your device. After pressing learn, be
+            sure to press the button on your remote!
           </DialogContentText>
           <TextField
             autoFocus
@@ -38,16 +41,21 @@ export default function LearnDialog(props) {
             fullWidth
             value={learnInput}
             onChange={handleInputChange}
+            disabled={inputDisabled}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button
+            onClick={handleClose}
+            color="primary"
+            disabled={learnDisabled}
+          >
             Cancel
           </Button>
           <Button
             onClick={handleLearn}
             color="secondary"
-            disabled={learnDisabled}
+            disabled={cancelDisabled}
           >
             Learn
           </Button>

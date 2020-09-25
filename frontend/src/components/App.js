@@ -156,9 +156,16 @@ function App() {
                 handleDeleteClick={commandId =>
                   dispatch(requestDeleteCommand(selectedDevice.ip, commandId))
                 }
+                disabled={isBusy}
               />
             </Box>
           </>
+        )}
+
+        {!selectedDevice.mac && !isBusy && (
+          <Typography variant="subtitle1" color="textSecondary">
+            Select a device to see commands
+          </Typography>
         )}
 
         <Snackbar
@@ -181,7 +188,9 @@ function App() {
           handleInputChange={event =>
             dispatch(setLearnInput(event.target.value))
           }
-          learnDisabled={!learnInput}
+          learnDisabled={!learnInput || isBusy}
+          cancelDisabled={isBusy}
+          inputDisabled={isBusy}
         />
       </Box>
     </>

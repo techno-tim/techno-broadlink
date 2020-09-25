@@ -59,19 +59,32 @@ export const setSelectedDevice = selectedDevice => {
 
 export const requestLearnCommand = (ipAddress, commandName) => {
   return async dispatch => {
+    dispatch(setIsBusy(true));
+    // unfortunately there's a delay
+    setTimeout(() => {
+      dispatch(
+        setShowAlert('info', 'Please press a button on your remote', true)
+      );
+    }, 4800);
+
     await dispatch({
       type: LEARN_COMMAND,
       payload: learnCommand(ipAddress, commandName),
     })
       .then(data => {
         batch(() => {
+          dispatch(setIsBusy(false));
           dispatch(setSelectedDevice(data.value));
           dispatch(setLearnOpen(false));
           dispatch(setLearnInput(''));
-          dispatch(setShowAlert('success', `Learned command!`, true));
+          // have to time with info message :|
+          setTimeout(() => {
+            dispatch(setShowAlert('success', `Learned command!`, true));
+          }, 1000);
         });
       })
       .catch(() => {
+        dispatch(setIsBusy(false));
         dispatch(setLearnOpen(false));
         dispatch(setLearnInput(''));
         dispatch(setShowAlert('error', `Error learning command`, true));
@@ -81,20 +94,39 @@ export const requestLearnCommand = (ipAddress, commandName) => {
 
 export const requestSendCommand = (ipAddress, commandId) => {
   return async dispatch => {
+    dispatch(setIsBusy(true));
     await dispatch({
       type: SEND_COMMAND,
       payload: sendCommand(ipAddress, commandId),
-    }).then(() => {
-      dispatch(setShowAlert('success', `Command sent!`, true));
-    });
+    })
+      .then(() => {
+        dispatch(setIsBusy(false));
+        dispatch(setShowAlert('success', `Command sent!`, true));
+      })
+      .catch(() => {
+        dispatch(setIsBusy(false));
+        dispatch(setShowAlert('error', `Error sending command`, true));
+      });
   };
 };
 
 export const requestDeleteCommand = (ipAddress, commandId) => {
   return async dispatch => {
+    dispatch(setIsBusy(true));
     await dispatch({
       type: DELETE_COMMAND,
       payload: deleteCommand(ipAddress, commandId),
-    });
+    })
+      .then(data => {
+        batch(() => {
+          dispatch(setIsBusy(false));
+          dispatch(setSelectedDevice(data.value));
+          dispatch(setShowAlert('success', `Deleted command!`, true));
+        });
+      })
+      .catch(() => {
+        dispatch(setIsBusy(true));
+        dispatch(setShowAlert('error', `Error deleting command`, true));
+      });
   };
 };

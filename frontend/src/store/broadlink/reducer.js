@@ -45,10 +45,11 @@ export default function broadlinkReducer(state = initialState, action = {}) {
 
     case DELETE_COMMAND_FULFILLED: {
       const { payload } = action;
-      const { device } = payload;
+      const newDeviceList = state.devices.filter(d => d.mac !== payload.mac);
+      newDeviceList.push(payload);
       return update(state, {
-        commands: {
-          $set: device,
+        devices: {
+          $set: newDeviceList,
         },
       });
     }
