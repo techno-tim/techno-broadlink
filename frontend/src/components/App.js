@@ -14,14 +14,23 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
+import AddIcon from '@material-ui/icons/Add';
 import {
   requestDevices,
   setSelectedDevice,
+  requestLearnCommand,
+  requestSendCommand,
+  requestDeleteCommand,
 } from '../store/broadlink/actionCreator';
-import { setShowAlert } from '../store/layout/actionCreator';
+import {
+  setShowAlert,
+  setLearnOpen,
+  setLearnInput,
+} from '../store/layout/actionCreator';
 import Device from './Device';
 import SkeletonDevice from './SkeletonDevice';
 import CommandList from './CommandList';
+import LearnDialog from './LearnDialog';
 
 function App() {
   const classes = useStyles();
@@ -31,7 +40,9 @@ function App() {
     dispatch(requestDevices());
   }, [dispatch]);
 
-  const { isBusy, alert } = useSelector(state => state.layout);
+  const { isBusy, alert, learnOpen, learnInput } = useSelector(
+    state => state.layout
+  );
   const { devices, selectedDevice } = useSelector(state => state.broadlink);
 
   const handleCloseAlert = () => {
@@ -115,14 +126,37 @@ function App() {
             );
           })}
         </Box>
-        <Divider />
         {selectedDevice && selectedDevice.commands && (
           <>
-            <Box pt={2} pb={2}>
-              <Typography variant="h6">Commands</Typography>
-            </Box>
+            <Grid container direction="row" alignItems="center">
+              <Tooltip title="Learn Command">
+                <span>
+                  <IconButton
+                    color="secondary"
+                    aria-label="learn command"
+                    disabled={isBusy}
+                    edge="start"
+                    onClick={() => {
+                      dispatch(setLearnOpen(true));
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+              <Typography variant="h5">Commands</Typography>
+            </Grid>
+            <Divider />
             <Box>
-              <CommandList commands={selectedDevice.commands} />
+              <CommandList
+                commands={selectedDevice.commands}
+                handleSendClick={commandId =>
+                  dispatch(requestSendCommand(selectedDevice.ip, commandId))
+                }
+                handleDeleteClick={commandId =>
+                  dispatch(requestDeleteCommand(selectedDevice.ip, commandId))
+                }
+              />
             </Box>
           </>
         )}
@@ -134,6 +168,21 @@ function App() {
         >
           <Alert severity={alert.severity}>{alert.message}</Alert>
         </Snackbar>
+        <LearnDialog
+          open={learnOpen}
+          handleClose={() => {
+            dispatch(setLearnOpen(false));
+            dispatch(setLearnInput(''));
+          }}
+          handleLearn={() => {
+            dispatch(requestLearnCommand(selectedDevice.ip, learnInput));
+          }}
+          learnInput={learnInput}
+          handleInputChange={event =>
+            dispatch(setLearnInput(event.target.value))
+          }
+          learnDisabled={!learnInput}
+        />
       </Box>
     </>
   );

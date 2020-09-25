@@ -1,5 +1,10 @@
 import update from 'immutability-helper';
-import { GET_DEVICES_FULFILLED, SET_SELECTED_DEVICE } from './actionType';
+import {
+  DELETE_COMMAND_FULFILLED,
+  GET_DEVICES_FULFILLED,
+  LEARN_COMMAND_FULFILLED,
+  SET_SELECTED_DEVICE,
+} from './actionType';
 
 export const initialState = {
   devices: [],
@@ -16,6 +21,7 @@ export default function broadlinkReducer(state = initialState, action = {}) {
         },
       });
     }
+
     case SET_SELECTED_DEVICE: {
       const { payload } = action;
       const { selectedDevice } = payload;
@@ -25,6 +31,28 @@ export default function broadlinkReducer(state = initialState, action = {}) {
         },
       });
     }
+
+    case LEARN_COMMAND_FULFILLED: {
+      const { payload } = action;
+      const newDeviceList = state.devices.filter(d => d.mac !== payload.mac);
+      newDeviceList.push(payload);
+      return update(state, {
+        devices: {
+          $set: newDeviceList,
+        },
+      });
+    }
+
+    case DELETE_COMMAND_FULFILLED: {
+      const { payload } = action;
+      const { device } = payload;
+      return update(state, {
+        commands: {
+          $set: device,
+        },
+      });
+    }
+
     default:
       return state;
   }

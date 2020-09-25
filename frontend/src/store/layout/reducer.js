@@ -1,5 +1,10 @@
 import update from 'immutability-helper';
-import { SET_IS_BUSY, SET_SHOW_ALERT } from './actionType';
+import {
+  SET_IS_BUSY,
+  SET_LEARN_INPUT,
+  SET_LEARN_OPEN,
+  SET_SHOW_ALERT,
+} from './actionType';
 
 export const initialState = {
   isBusy: false,
@@ -8,6 +13,8 @@ export const initialState = {
     message: '',
     show: false,
   },
+  learnOpen: false,
+  learnInput: '',
 };
 
 export default function layoutReducer(state = initialState, action = {}) {
@@ -35,6 +42,24 @@ export default function layoutReducer(state = initialState, action = {}) {
           show: {
             $set: show,
           },
+        },
+      });
+    }
+    case SET_LEARN_OPEN: {
+      const { payload } = action;
+      const { learnOpen } = payload;
+      return update(state, {
+        learnOpen: {
+          $set: learnOpen,
+        },
+      });
+    }
+    case SET_LEARN_INPUT: {
+      const { payload } = action;
+      const { learnInput } = payload;
+      return update(state, {
+        learnInput: {
+          $set: learnInput,
         },
       });
     }

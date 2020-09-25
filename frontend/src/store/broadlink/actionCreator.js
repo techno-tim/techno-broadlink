@@ -1,6 +1,23 @@
-import { discoverDevices } from '../../services/broadlink';
-import { setIsBusy, setShowAlert } from '../layout/actionCreator';
-import { GET_DEVICES, SET_SELECTED_DEVICE } from './actionType';
+import { batch } from 'react-redux';
+import {
+  deleteCommand,
+  discoverDevices,
+  learnCommand,
+  sendCommand,
+} from '../../services/broadlink';
+import {
+  setIsBusy,
+  setShowAlert,
+  setLearnOpen,
+  setLearnInput,
+} from '../layout/actionCreator';
+import {
+  DELETE_COMMAND,
+  GET_DEVICES,
+  LEARN_COMMAND,
+  SEND_COMMAND,
+  SET_SELECTED_DEVICE,
+} from './actionType';
 
 export const requestDevices = () => {
   return async dispatch => {
@@ -36,6 +53,48 @@ export const setSelectedDevice = selectedDevice => {
       payload: {
         selectedDevice,
       },
+    });
+  };
+};
+
+export const requestLearnCommand = (ipAddress, commandName) => {
+  return async dispatch => {
+    await dispatch({
+      type: LEARN_COMMAND,
+      payload: learnCommand(ipAddress, commandName),
+    })
+      .then(data => {
+        batch(() => {
+          dispatch(setSelectedDevice(data.value));
+          dispatch(setLearnOpen(false));
+          dispatch(setLearnInput(''));
+          dispatch(setShowAlert('success', `Learned command!`, true));
+        });
+      })
+      .catch(() => {
+        dispatch(setLearnOpen(false));
+        dispatch(setLearnInput(''));
+        dispatch(setShowAlert('error', `Error learning command`, true));
+      });
+  };
+};
+
+export const requestSendCommand = (ipAddress, commandId) => {
+  return async dispatch => {
+    await dispatch({
+      type: SEND_COMMAND,
+      payload: sendCommand(ipAddress, commandId),
+    }).then(() => {
+      dispatch(setShowAlert('success', `Command sent!`, true));
+    });
+  };
+};
+
+export const requestDeleteCommand = (ipAddress, commandId) => {
+  return async dispatch => {
+    await dispatch({
+      type: DELETE_COMMAND,
+      payload: deleteCommand(ipAddress, commandId),
     });
   };
 };
