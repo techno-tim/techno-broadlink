@@ -11,13 +11,17 @@ export const requestDevices = () => {
     })
       .then(data => {
         dispatch(setIsBusy(false));
-        dispatch(
-          setShowAlert(
-            'success',
-            `Discovered ${data.value.length} devices`,
-            true
-          )
-        );
+        if (data.value.length > 0) {
+          dispatch(
+            setShowAlert(
+              'success',
+              `Discovered ${data.value.length} devices`,
+              true
+            )
+          );
+        } else {
+          dispatch(setShowAlert('error', `Did not discover any devices`, true));
+        }
       })
       .catch(() => {
         dispatch(setIsBusy(false));
