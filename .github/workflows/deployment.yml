@@ -8,8 +8,9 @@ jobs:
     runs-on: node:12.16.2
     steps:
     - uses: actions/checkout@v1
-    - name: Install Packages
+    - name: change dir
       run: cd frontend
+    - name: Install Packages
       run: yarn install --frozen-lockfile --check-files
     - name: lint
       run: yarn lint
