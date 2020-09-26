@@ -30,18 +30,16 @@ export default function Device(props) {
       <Card className={selected ? classes.selectedRoot : classes.root}>
         <CardContent>
           <Grid container direction="row" justify="flex-end"></Grid>
-          <Typography variant="h5" component="h2">
-            <InputBase
-              className={classes.margin}
-              defaultValue={name || 'Room'}
-              inputProps={{
-                'aria-label': 'naked',
-                min: 0,
-                style: { textAlign: 'center' },
-              }}
-              rows={1}
-            />
-          </Typography>
+          <InputBase
+            className={classes.margin}
+            defaultValue={name || 'Room'}
+            inputProps={{
+              'aria-label': 'naked',
+              min: 0,
+              style: { textAlign: 'center', fontSize: 24 },
+            }}
+            rows={1}
+          />
           <Typography className={classes.pos} color="textSecondary">
             {manufacturer}
           </Typography>
