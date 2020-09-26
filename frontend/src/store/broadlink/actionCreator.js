@@ -1,8 +1,10 @@
+import { debounce } from 'lodash';
 import { batch } from 'react-redux';
 import {
   deleteCommand,
   discoverDevices,
   learnCommand,
+  renameDevice,
   sendCommand,
 } from '../../services/broadlink';
 import {
@@ -15,6 +17,7 @@ import {
   DELETE_COMMAND,
   GET_DEVICES,
   LEARN_COMMAND,
+  RENAME_DEVICE,
   SEND_COMMAND,
   SET_SELECTED_DEVICE,
 } from './actionType';
@@ -134,3 +137,25 @@ export const requestDeleteCommand = (ipAddress, commandId) => {
       });
   };
 };
+
+export const requestRenameDevice = (ipAddress, deviceName) => {
+  return async dispatch => {
+    deboucedRequestRenameDevice(ipAddress, deviceName, dispatch);
+  };
+};
+
+// this debouces the thunk for 2 sec
+export const deboucedRequestRenameDevice = debounce(
+  async (ipAddress, deviceName, dispatch) => {
+    dispatch(setIsBusy(true));
+    await dispatch({
+      type: RENAME_DEVICE,
+      payload: renameDevice(ipAddress, deviceName),
+    }).then(data => {
+      batch(() => {
+        dispatch(setIsBusy(false));
+      });
+    });
+  },
+  2000
+);

@@ -24,6 +24,7 @@ export default function Device(props) {
     manufacturer,
     handleClick,
     disabled,
+    handleChange,
   } = props;
   return (
     <ButtonBase onClick={handleClick} disableRipple disabled={disabled}>
@@ -39,6 +40,8 @@ export default function Device(props) {
               style: { textAlign: 'center', fontSize: 24 },
             }}
             rows={1}
+            onChange={handleChange}
+            disabled={disabled}
           />
           <Typography className={classes.pos} color="textSecondary">
             {manufacturer}
@@ -86,4 +89,5 @@ Device.propTypes = {
   manufacturer: string,
   handleClick: func,
   disabled: bool,
+  handleChange: func,
 };

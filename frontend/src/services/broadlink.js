@@ -36,3 +36,11 @@ export const deleteCommand = async (ipAddress, commandId) => {
   const response = await axios.post(`${url}`, body, options);
   return response.data;
 };
+
+export const renameDevice = async (ipAddress, deviceName) => {
+  const url = `${BROADLINK_API_HOST}/rename`;
+  const options = { headers };
+  const body = { ipAddress, deviceName };
+  const response = await axios.post(`${url}`, body, options);
+  return response.data;
+};

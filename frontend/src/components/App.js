@@ -15,12 +15,14 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
+
 import {
   requestDevices,
   setSelectedDevice,
   requestLearnCommand,
   requestSendCommand,
   requestDeleteCommand,
+  requestRenameDevice,
 } from '../store/broadlink/actionCreator';
 import {
   setShowAlert,
@@ -121,6 +123,9 @@ function App() {
                   model={device.model}
                   handleClick={() => dispatch(setSelectedDevice(device))}
                   disabled={isBusy}
+                  handleChange={event =>
+                    dispatch(requestRenameDevice(device.ip, event.target.value))
+                  }
                 />
               </Grid>
             );
