@@ -262,9 +262,9 @@ def delete_command(ip_address, command_id):
                                 "name": data['name'],
                             }
                             write_json_file(file_with_path, updated_device)
-                            command_status = {
-                                "commands": remaining_commands
-                            }
-                            return command_status
+                            # command_status = {
+                            #     "commands": remaining_commands
+                            # }
+                            return updated_device
         else:
             print("Error authenticating with device : {}".format(device.host))

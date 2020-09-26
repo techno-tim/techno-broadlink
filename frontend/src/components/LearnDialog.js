@@ -48,14 +48,14 @@ export default function LearnDialog(props) {
           <Button
             onClick={handleClose}
             color="primary"
-            disabled={learnDisabled}
+            disabled={cancelDisabled}
           >
             Cancel
           </Button>
           <Button
             onClick={handleLearn}
             color="secondary"
-            disabled={cancelDisabled}
+            disabled={learnDisabled}
           >
             Learn
           </Button>
