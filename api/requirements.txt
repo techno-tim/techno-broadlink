@@ -1,6 +1,7 @@
+# local import of self
+./
 astroid==2.4.2
 broadlink==0.14.1
-./
 cffi==1.14.3
 click==7.1.2
 cryptography==3.1.1
