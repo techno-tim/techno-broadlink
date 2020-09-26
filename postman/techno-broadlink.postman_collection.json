@@ -95,7 +95,7 @@
 		{
 			"name": "COMMAND delete",
 			"request": {
-				"method": "DELETE",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -107,14 +107,43 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/command",
+					"raw": "http://localhost:8080/delete",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"command"
+						"delete"
+					]
+				},
+				"description": "Discover all devices.  This will return all discovered devices and configurations"
+			},
+			"response": []
+		},
+		{
+			"name": "DEVICE rename",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandId\": \"5ffef319-51c4-408c-b5cc-a28ffdc9cce6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delete"
 					]
 				},
 				"description": "Discover all devices.  This will return all discovered devices and configurations"
