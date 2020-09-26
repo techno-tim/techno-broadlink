@@ -85,7 +85,7 @@ def discover_devices():
                     if data and data['mac']:
                         # we have a mac address in the file, should be a valid file
                         # merge new data into old
-                        merged_device = always_merger.merge(my_device,data)
+                        merged_device = always_merger.merge(my_device, data)
                         write_json_file(file_with_path, merged_device)
                     else:
                         # not a vlid mac, we need to just write data
@@ -253,6 +253,7 @@ def delete_command(ip_address, command_id):
                         if data and data['mac'] and data['commands'] and data['commands'][0]:
                             # we have some commands
                             remaining_commands = list(filter(lambda x: x['id'] != command_id, data['commands']))
+                            
                             updated_device = {
                                 "ip": data['ip'],
                                 "mac": data['mac'],
@@ -262,9 +263,43 @@ def delete_command(ip_address, command_id):
                                 "name": data['name'],
                             }
                             write_json_file(file_with_path, updated_device)
-                            # command_status = {
-                            #     "commands": remaining_commands
-                            # }
                             return updated_device
         else:
             print("Error authenticating with device : {}".format(device.host))
+
+
+def rename_device(ip_address, device_name):
+    parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
+    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    args = parser.parse_args()
+    print("Discovering...")
+    devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
+    for device in devices:
+        if device.auth():
+            if device.host[0] == ip_address:
+                # found a match
+                print("###########################################")
+                print('Found a match')
+                print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
+                                                                        ''.join(format(x, '02x') for x in device.mac)))
+                mac_address = ''.join(format(x, '02x') for x in device.mac)
+                file_name = mac_address + '.json'
+                script_dir = os.path.dirname(__file__)
+                file_path = os.path.join(script_dir, '../output/')
+                file_with_path = file_path + file_name
+                if os.path.exists(file_with_path):
+                                # we need to merge
+                                print('File exists')
+                                with open(file_with_path) as existing_file:
+                                    data = json.load(existing_file)
+                                    data['name'] = device_name
+                                    if data and data['mac']:
+                                        write_json_file(file_with_path, data)
+                                        return data
+                                    else:
+                                        # not a vlid mac, we need to just write data
+                                        print('Not a valid mac address')
+                else:
+                    print("Error authenticating with device : {}".format(device.host))

@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
-from broadlink_service import discover_devices, learn_command, send_command, delete_command
+from broadlink_service import discover_devices, learn_command, send_command, delete_command, rename_device
 
 app = Flask(__name__)
 CORS(app)
@@ -21,7 +21,6 @@ def learn():
     command_name = req_data['commandName']
     return jsonify(learn_command(ip_address, command_name))
 
-
 @app.route('/command', methods=['POST'])
 def command():
     request.method == 'POST'
@@ -29,7 +28,6 @@ def command():
     ip_address = req_data['ipAddress']
     command_id = req_data['commandId']
     return jsonify(send_command(ip_address, command_id))
-
 
 @app.route('/delete', methods=['POST'])
 def delete():
@@ -39,8 +37,14 @@ def delete():
     command_id = req_data['commandId']
     return jsonify(delete_command(ip_address, command_id))
 
+@app.route('/rename', methods=['POST'])
+def rename():
+    request.method == 'POST'
+    req_data = request.get_json()
+    ip_address = req_data['ipAddress']
+    device_name = req_data['deviceName']
+    return jsonify(rename_device(ip_address, device_name))
 
-app.register_error_handler(400, handle_bad_request)
 
 # dev server
 # if __name__ == '__main__':
