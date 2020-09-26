@@ -164,7 +164,7 @@ function App() {
 
         {!selectedDevice.mac && !isBusy && (
           <Typography variant="subtitle1" color="textSecondary">
-            Select a device to see commands
+            Choose a device
           </Typography>
         )}
 

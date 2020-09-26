@@ -29,13 +29,17 @@ export const requestDevices = () => {
       .then(data => {
         dispatch(setIsBusy(false));
         if (data.value.length > 0) {
-          dispatch(
-            setShowAlert(
-              'success',
-              `Discovered ${data.value.length} devices`,
-              true
-            )
-          );
+          batch(() => {
+            dispatch(
+              setShowAlert(
+                'success',
+                `Discovered ${data.value.length} devices`,
+                true
+              )
+            );
+          });
+          // default to first device
+          dispatch(setSelectedDevice(data.value[0]));
         } else {
           dispatch(setShowAlert('error', `Did not discover any devices`, true));
         }

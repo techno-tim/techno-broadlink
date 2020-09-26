@@ -14,46 +14,45 @@ export default function CommandList(props) {
   const { commands, handleSendClick, handleDeleteClick, disabled } = props;
   return (
     <List className={classes.root}>
-      <Grid
-        container
-        alignItems="flex-start"
-        justify="space-between"
-        direction="row"
-      >
-        {commands.map(command => {
-          return (
-            <React.Fragment key={command.id}>
-              <Box item pl={2} component={Grid}>
-                <Typography display="inline" variant="h5" component="h2">
-                  {command.name}
-                </Typography>
-              </Box>
-              <Box item pr={2} component={Grid}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  className={classes.button}
-                  startIcon={<PlayCircleOutlineIcon />}
-                  onClick={() => handleSendClick(command.id)}
-                  disabled={disabled}
-                >
-                  Send
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  startIcon={<HighlightOffIcon />}
-                  onClick={() => handleDeleteClick(command.id)}
-                  disabled={disabled}
-                >
-                  Delete
-                </Button>
-              </Box>
-            </React.Fragment>
-          );
-        })}
-      </Grid>
+      {commands.map(command => {
+        return (
+          <Grid
+            container
+            key={command.id}
+            direction="row"
+            alignItems="flex-start"
+            justify="space-between"
+          >
+            <Box item pl={2} component={Grid}>
+              <Typography display="inline" variant="h5" component="h2">
+                {command.name}
+              </Typography>
+            </Box>
+            <Box item pr={2} component={Grid}>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+                startIcon={<PlayCircleOutlineIcon />}
+                onClick={() => handleSendClick(command.id)}
+                disabled={disabled}
+              >
+                Send
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                startIcon={<HighlightOffIcon />}
+                onClick={() => handleDeleteClick(command.id)}
+                disabled={disabled}
+              >
+                Delete
+              </Button>
+            </Box>
+          </Grid>
+        );
+      })}
     </List>
   );
 }
