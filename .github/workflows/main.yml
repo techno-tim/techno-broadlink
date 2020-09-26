@@ -1,0 +1,23 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - master
+jobs:
+  install-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+    steps:
+      - uses: actions/checkout@master
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install and Test
+        run: |
+          yarn install --frozen-lockfile --check-files
+          yarn lint
+        env:
+          CI: true
