@@ -1,25 +1,25 @@
-name: NodeJS
+# name: NodeJS
 
-on: [push]
+# on: [push]
 
-jobs:
-  install-and-test:
+# jobs:
+#   install-and-test:
 
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         node-version: [12.x]
         
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@master
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install and Test
-      run: |
-        cd frontend
-        yarn install --frozen-lockfile --check-files
-        yarn lint
-      env:
-        CI: true
+#     steps:
+#     - uses: actions/checkout@v2
+#     - name: Use Node.js ${{ matrix.node-version }}
+#       uses: actions/setup-node@master
+#       with:
+#         node-version: ${{ matrix.node-version }}
+#     - name: Install and Test
+#       run: |
+#         cd frontend
+#         yarn install --frozen-lockfile --check-files
+#         yarn lint
+#       env:
+#         CI: true
