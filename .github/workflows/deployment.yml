@@ -1,0 +1,15 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: node:12.16.2
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Packages
+      run: cd frontend
+      run: yarn install --frozen-lockfile --check-files
+    - name: lint
+      run: yarn lint
