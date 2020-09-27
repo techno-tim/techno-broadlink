@@ -10,4 +10,6 @@ WORKDIR /usr/src/app
 
 EXPOSE 8080
 
-CMD [ "python", "./api.py" ]
+ CMD ["/bin/bash"]
+
+#CMD [ "python", "./api.py" ]
