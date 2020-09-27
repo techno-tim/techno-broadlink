@@ -6,7 +6,7 @@ A Docker container for Broadlink devices that hosts a Web API and a UI to send c
 
 ```
 docker run \
-  -e HOST_IP=your.docker.host.ip
+  -e HOST_IP=your.docker.host.ip \
   -p 8080:8080 \
   -v </path/to/config>:/app/config \
   --network host \
