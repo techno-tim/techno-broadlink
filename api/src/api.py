@@ -1,7 +1,18 @@
+import os
+
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS, cross_origin
 
 from broadlink_service import discover_devices, learn_command, send_command, delete_command, rename_device
+
+host_ip =os.environ.get('HOST_IP')
+if host_ip:
+    print(f'host_ip is {host_ip}')
+
+else:
+    print(f'{host_ip} does not exist')
+    print(f'setting it to localhost')
+    host_ip='localhost'
 
 app = Flask(__name__, static_url_path='',
                   static_folder='build',
