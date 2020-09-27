@@ -7,7 +7,7 @@ RUN pip install -r requirements.txt
 WORKDIR /app/build
 COPY frontend/build .
 WORKDIR /app
-RUN mkdir app/config
+RUN mkdir config
 RUN groupadd -r appuser \
   && useradd -r -g appuser appuser
 
