@@ -23,8 +23,7 @@ jobs:
         yarn install --frozen-lockfile --check-files
         yarn lint
         yarn build
-        ls -l
-        ls -a
+        ls -R
     - name: Upload ReactJS Build
       uses: actions/upload-artifact@v2
       with:

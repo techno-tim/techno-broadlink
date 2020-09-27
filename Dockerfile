@@ -3,7 +3,7 @@ WORKDIR /app
 ADD ./api/requirements.txt .
 ADD ./api/src/ .
 RUN pip install -r requirements.txt
-ADD ./frontend/build .
+ADD ./frontend/build/ .
 EXPOSE 8080
 
 CMD [ "python", "./api.py" ]
