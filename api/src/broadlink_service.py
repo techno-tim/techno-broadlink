@@ -75,7 +75,7 @@ def discover_devices():
             device_list.append(my_device)
             file_name = mac_address + '.json'
             script_dir = os.path.dirname(__file__)
-            file_path = os.path.join(script_dir, '../output/')
+            file_path = os.path.join(script_dir, './config/')
             file_with_path = file_path + file_name
             if os.path.exists(file_with_path):
                 # we need to merge
@@ -146,7 +146,7 @@ def learn_command(ip_address, command_name):
 
                 file_name = mac_address + '.json'
                 script_dir = os.path.dirname(__file__)
-                file_path = os.path.join(script_dir, '../output/')
+                file_path = os.path.join(script_dir, './config/')
                 file_with_path = file_path + file_name
                 if os.path.exists(file_with_path):
                         # we need to merge
@@ -194,7 +194,7 @@ def send_command(ip_address, command_id):
 
                 file_name = mac_address + '.json'
                 script_dir = os.path.dirname(__file__)
-                file_path = os.path.join(script_dir, '../output/')
+                file_path = os.path.join(script_dir, './config/')
                 file_with_path = file_path + file_name
                 if os.path.exists(file_with_path):
                         # we need to merge
@@ -243,7 +243,7 @@ def delete_command(ip_address, command_id):
                 mac_address = ''.join(format(x, '02x') for x in device.mac)
                 file_name = mac_address + '.json'
                 script_dir = os.path.dirname(__file__)
-                file_path = os.path.join(script_dir, '../output/')
+                file_path = os.path.join(script_dir, './config/')
                 file_with_path = file_path + file_name
                 if os.path.exists(file_with_path):
                     # we can update it
@@ -253,7 +253,7 @@ def delete_command(ip_address, command_id):
                         if data and data['mac'] and data['commands'] and data['commands'][0]:
                             # we have some commands
                             remaining_commands = list(filter(lambda x: x['id'] != command_id, data['commands']))
-                            
+
                             updated_device = {
                                 "ip": data['ip'],
                                 "mac": data['mac'],
@@ -287,7 +287,7 @@ def rename_device(ip_address, device_name):
                 mac_address = ''.join(format(x, '02x') for x in device.mac)
                 file_name = mac_address + '.json'
                 script_dir = os.path.dirname(__file__)
-                file_path = os.path.join(script_dir, '../output/')
+                file_path = os.path.join(script_dir, './config/')
                 file_with_path = file_path + file_name
                 if os.path.exists(file_with_path):
                                 # we need to merge
