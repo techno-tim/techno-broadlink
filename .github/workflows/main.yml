@@ -27,7 +27,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: build
-        path: build
+        path: build/
 
   python-install-and-test:
     runs-on: ubuntu-latest
@@ -89,7 +89,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build 
-        
       -
         name: Checkout
         uses: actions/checkout@v2
