@@ -6,6 +6,8 @@ COPY api/src .
 RUN pip install -r requirements.txt
 WORKDIR /app/build
 COPY frontend/build .
+WORKDIR /app
+
 EXPOSE 8080
 
 CMD [ "python", "./api.py" ]
