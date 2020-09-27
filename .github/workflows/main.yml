@@ -51,5 +51,6 @@ jobs:
     #     pytest
 
   build-and-push-docker-image:
-  - name: Build and push Docker images
-  uses: docker/build-push-action@v1.1.1
+    steps:
+    - name: Build and push Docker images
+    uses: docker/build-push-action@v1.1.1
