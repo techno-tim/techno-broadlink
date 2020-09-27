@@ -8,12 +8,7 @@ WORKDIR /app/build
 COPY frontend/build .
 WORKDIR /app
 RUN mkdir config
-RUN groupadd -r appuser \
-  && useradd -r -g appuser appuser
-
 VOLUME /app/config
-USER appuser
-
 EXPOSE 8080
 
 CMD [ "python", "./api.py" ]
