@@ -9,6 +9,6 @@ COPY frontend/build .
 WORKDIR /app
 RUN mkdir config
 VOLUME /app/config
-EXPOSE 9098
+EXPOSE 10981
 
 CMD [ "python", "./api.py" ]
