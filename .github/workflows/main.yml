@@ -87,7 +87,7 @@ jobs:
     #     run: echo ${{ steps.docker_build.outputs.digest }}
     steps:
       -
-        name: make a dir for artifacts
+        name: Make a dir for ReactJS artifacts
         run: mkdir frontend/build
       - 
         name: Download ReactJS artifacts from JS Build
@@ -96,9 +96,9 @@ jobs:
           name: build
           path: frontend/build
       -
+        name: Show structure of downloaded files
         run: |
-          ls -a
-          ls
+          ls -R
       -
         name: Checkout
         uses: actions/checkout@v2
