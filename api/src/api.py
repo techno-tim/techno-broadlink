@@ -37,7 +37,8 @@ def index():
 
 @app.route('/discover', methods=['POST'])
 def discover():
-    return jsonify(discover_devices())
+    #pylint: disable=too-many-arguments
+    return jsonify(discover_devices(host_ip))
 
 @app.route('/learn', methods=['POST'])
 def learn():

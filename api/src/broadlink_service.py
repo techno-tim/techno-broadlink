@@ -8,6 +8,7 @@ import os
 import broadlink
 import base64
 import uuid
+import sys
 from deepmerge import always_merger
 from broadlink.exceptions import ReadError, StorageError
 
@@ -46,13 +47,16 @@ def write_json_file(file, data):
         print('Updated file')
 
 
-def discover_devices():
+def discover_devices(host_ip):
+    if host_ip == 'localhost':
+        host_ip=None
     device_list = []
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
     parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
-    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
+    parser.add_argument("--ip", default=host_ip, help="ip address to use in the discovery")
     parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
     args = parser.parse_args()
+    print(f'args: {args}')
     print("Discovering...")
     devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
     for device in devices:
