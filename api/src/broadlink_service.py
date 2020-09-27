@@ -60,6 +60,7 @@ def discover_devices(host_ip):
     print("Discovering...")
     devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
     for device in devices:
+        print(f'found {devices}')
         if device.auth():
             # devices.append(device)
             print("###########################################")
