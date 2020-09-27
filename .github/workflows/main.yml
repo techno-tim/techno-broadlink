@@ -23,11 +23,13 @@ jobs:
         yarn install --frozen-lockfile --check-files
         yarn lint
         yarn build
+        ls -l
+        ls -a
     - name: Upload ReactJS Build
       uses: actions/upload-artifact@v2
       with:
         name: build
-        path: build/
+        path: ../build
 
   python-install-and-test:
     runs-on: ubuntu-latest
