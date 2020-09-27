@@ -48,13 +48,19 @@ def write_json_file(file, data):
 
 
 def discover_devices(host_ip):
+    boradcast_address = "255.255.255.255"
     if host_ip == 'localhost':
         host_ip=None
+    else:
+        boradcast_address = host_ip[:host_ip.rfind('.')+1] + '255'
+        print(f'broadcast ip is: {boradcast_address}')
+
+
     device_list = []
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=10, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--timeout", type=int, default=2, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=host_ip, help="ip address to use in the discovery")
-    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default=boradcast_address, help="destination ip address to use in the discovery")
     args = parser.parse_args()
     print(f'args: {args}')
     print("Discovering...")
