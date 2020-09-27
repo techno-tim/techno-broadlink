@@ -23,8 +23,11 @@ jobs:
         yarn install --frozen-lockfile --check-files
         yarn lint
         yarn build
-      env:
-        CI: true
+    - name: Upload ReactJS Build
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build
 
   python-install-and-test:
     runs-on: ubuntu-latest
@@ -81,6 +84,11 @@ jobs:
     #     name: Image digest
     #     run: echo ${{ steps.docker_build.outputs.digest }}
     steps:
+      - 
+        name: Download math result for job 1
+        uses: actions/download-artifact@v2
+        with:
+        name: build
       -
         name: Checkout
         uses: actions/checkout@v2
