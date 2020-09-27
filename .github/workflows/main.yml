@@ -84,11 +84,11 @@ jobs:
     #     name: Image digest
     #     run: echo ${{ steps.docker_build.outputs.digest }}
     steps:
-      - 
-        name: Download math result for job 1
+      - name: Download ReactJS artifacts from JS Build
         uses: actions/download-artifact@v2
         with:
-        name: build
+        name: build 
+        
       -
         name: Checkout
         uses: actions/checkout@v2
