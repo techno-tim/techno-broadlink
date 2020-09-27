@@ -88,13 +88,13 @@ jobs:
     steps:
       -
         name: make a dir for artifacts
-        run: mkdir build
+        run: mkdir frontend/build
       - 
         name: Download ReactJS artifacts from JS Build
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: path/to/artifacts
+          path: frontend/build
       -
         run: |
           ls -a
