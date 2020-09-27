@@ -1,15 +1,18 @@
 FROM python:3.8.5
-WORKDIR /usr/src/app
+WORKDIR /app
 COPY api/requirements.txt .
 COPY api/setup.py .
 COPY api/src .
 RUN pip install -r requirements.txt
-WORKDIR /usr/src/app/build
+WORKDIR /app/build
 COPY frontend/build .
-WORKDIR /usr/src/app
+WORKDIR /app
+
+RUN groupadd -r appuser \
+  && useradd -r -g appuser appuser
+VOLUME /app
+USER appuser
 
 EXPOSE 8080
 
- CMD ["/bin/bash"]
-
-#CMD [ "python", "./api.py" ]
+CMD [ "python", "./api.py" ]
