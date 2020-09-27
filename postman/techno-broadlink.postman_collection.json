@@ -70,7 +70,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandId\": \"5ffef319-51c4-408c-b5cc-a28ffdc9cce6\"\r\n}",
+					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandId\": \"12312313213123\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -128,7 +128,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandId\": \"5ffef319-51c4-408c-b5cc-a28ffdc9cce6\"\r\n}",
+					"raw": "{\r\n    \"ipAddress\": \"192.168.0.238\",\r\n    \"deviceName\": \"test2\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -136,14 +136,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:10981/delete",
+					"raw": "http://localhost:10981/rename",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "10981",
 					"path": [
-						"delete"
+						"rename"
 					]
 				},
 				"description": "Discover all devices.  This will return all discovered devices and configurations"
