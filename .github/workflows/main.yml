@@ -86,11 +86,15 @@ jobs:
     #     name: Image digest
     #     run: echo ${{ steps.docker_build.outputs.digest }}
     steps:
+      -
+        name: make a dir for artifacts
+        run: mkdir build
       - 
         name: Download ReactJS artifacts from JS Build
         uses: actions/download-artifact@v2
         with:
-          name: build 
+          name: build
+          path: path/to/artifacts
       -
         run: |
           ls -a
