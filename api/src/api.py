@@ -1,17 +1,29 @@
 import os
+import fileinput
+import fnmatch
 
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS, cross_origin
 
 from broadlink_service import discover_devices, learn_command, send_command, delete_command, rename_device
 
+# this is a workaround for passing the server IP into a client side reactjs app
 host_ip =os.environ.get('HOST_IP')
 if host_ip:
     print(f'host_ip is {host_ip}')
-
+    print('updating with host ip')
+    for root, dirs, files in os.walk("."):
+        for file in files:
+            if fnmatch.fnmatch(file, 'main.*.js'):
+                # print(os.path.join(root, file))
+                print(f'updated {file} with {host_ip}')
+                with open(os.path.join(root, file)) as r:
+                    text = r.read().replace("localhost", host_ip)
+                with open(os.path.join(root, file), "w") as w:
+                    w.write(text)
 else:
     print(f'{host_ip} does not exist')
-    print(f'setting it to localhost')
+    print(f'setting host_ip to localhost')
     host_ip='localhost'
 
 app = Flask(__name__, static_url_path='',
