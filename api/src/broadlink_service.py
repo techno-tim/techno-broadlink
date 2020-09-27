@@ -52,7 +52,7 @@ def discover_devices(host_ip):
         host_ip=None
     device_list = []
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=2, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--timeout", type=int, default=10, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=host_ip, help="ip address to use in the discovery")
     parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
     args = parser.parse_args()
