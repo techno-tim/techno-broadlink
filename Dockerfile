@@ -1,5 +1,5 @@
 FROM python:3.8.5
-
+RUN ls
 WORKDIR /app
 COPY api/src/requirements.txt .
 COPY api/src/ .

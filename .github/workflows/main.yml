@@ -92,6 +92,10 @@ jobs:
         with:
           name: build 
       -
+        run: |
+          ls -a
+          ls
+      -
         name: Checkout
         uses: actions/checkout@v2
       -
