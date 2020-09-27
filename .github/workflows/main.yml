@@ -104,4 +104,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64,linux/386
           push: true
-          tags: timothystewart6/broadlink-techno:latest
+          tags: timothystewart6/techno-broadlink:latest
