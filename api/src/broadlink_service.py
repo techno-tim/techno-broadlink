@@ -107,7 +107,7 @@ def discover_devices(host_ip):
 
 def learn_command(ip_address, command_name):
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--timeout", type=int, default=1, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
     parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
     args = parser.parse_args()
@@ -180,7 +180,7 @@ def learn_command(ip_address, command_name):
 
 def send_command(ip_address, command_id):
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--timeout", type=int, default=1, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
     parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
     args = parser.parse_args()
@@ -231,7 +231,7 @@ def send_command(ip_address, command_id):
 
 def delete_command(ip_address, command_id):
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--timeout", type=int, default=1, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
     parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
     args = parser.parse_args()
@@ -275,7 +275,7 @@ def delete_command(ip_address, command_id):
 
 def rename_device(ip_address, device_name):
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=5, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--timeout", type=int, default=1, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
     parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
     args = parser.parse_args()
