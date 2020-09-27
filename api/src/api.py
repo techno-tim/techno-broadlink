@@ -45,7 +45,8 @@ def learn():
     req_data = request.get_json()
     ip_address = req_data['ipAddress']
     command_name = req_data['commandName']
-    return jsonify(learn_command(ip_address, command_name))
+    #pylint: disable=too-many-arguments
+    return jsonify(learn_command(ip_address, command_name, host_ip))
 
 @app.route('/command', methods=['POST'])
 def command():
@@ -53,7 +54,8 @@ def command():
     req_data = request.get_json()
     ip_address = req_data['ipAddress']
     command_id = req_data['commandId']
-    return jsonify(send_command(ip_address, command_id))
+    #pylint: disable=too-many-arguments
+    return jsonify(send_command(ip_address, command_id, host_ip))
 
 @app.route('/delete', methods=['POST'])
 def delete():
@@ -61,7 +63,8 @@ def delete():
     req_data = request.get_json()
     ip_address = req_data['ipAddress']
     command_id = req_data['commandId']
-    return jsonify(delete_command(ip_address, command_id))
+    #pylint: disable=too-many-arguments
+    return jsonify(delete_command(ip_address, command_id, host_ip))
 
 @app.route('/rename', methods=['POST'])
 def rename():
@@ -69,7 +72,8 @@ def rename():
     req_data = request.get_json()
     ip_address = req_data['ipAddress']
     device_name = req_data['deviceName']
-    return jsonify(rename_device(ip_address, device_name))
+    #pylint: disable=too-many-arguments
+    return jsonify(rename_device(ip_address, device_name, host_ip))
 
 
 # dev server

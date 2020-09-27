@@ -48,19 +48,19 @@ def write_json_file(file, data):
 
 
 def discover_devices(host_ip):
-    boradcast_address = "255.255.255.255"
+    broadcast_address = "255.255.255.255"
     if host_ip == 'localhost':
         host_ip=None
     else:
-        boradcast_address = host_ip[:host_ip.rfind('.')+1] + '255'
-        print(f'broadcast ip is: {boradcast_address}')
+        broadcast_address = host_ip[:host_ip.rfind('.')+1] + '255'
+        print(f'broadcast ip is: {broadcast_address}')
 
 
     device_list = []
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
     parser.add_argument("--timeout", type=int, default=2, help="timeout to wait for receiving discovery responses")
     parser.add_argument("--ip", default=host_ip, help="ip address to use in the discovery")
-    parser.add_argument("--dst-ip", default=boradcast_address, help="destination ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default=broadcast_address, help="destination ip address to use in the discovery")
     args = parser.parse_args()
     print(f'args: {args}')
     print("Discovering...")
@@ -112,11 +112,18 @@ def discover_devices(host_ip):
 
     return device_list
 
-def learn_command(ip_address, command_name):
+def learn_command(ip_address, command_name, host_ip):
+    broadcast_address = "255.255.255.255"
+    if host_ip == 'localhost':
+        host_ip=None
+    else:
+        broadcast_address = host_ip[:host_ip.rfind('.')+1] + '255'
+        print(f'broadcast ip is: {broadcast_address}')
+
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=1, help="timeout to wait for receiving discovery responses")
-    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
-    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    parser.add_argument("--timeout", type=int, default=2, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=host_ip, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default=broadcast_address, help="destination ip address to use in the discovery")
     args = parser.parse_args()
     print("Discovering...")
     devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
@@ -185,11 +192,18 @@ def learn_command(ip_address, command_name):
             print("Error authenticating with device : {}".format(device.host))
 
 
-def send_command(ip_address, command_id):
+def send_command(ip_address, command_id, host_ip):
+    broadcast_address = "255.255.255.255"
+    if host_ip == 'localhost':
+        host_ip=None
+    else:
+        broadcast_address = host_ip[:host_ip.rfind('.')+1] + '255'
+        print(f'broadcast ip is: {broadcast_address}')
+
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=1, help="timeout to wait for receiving discovery responses")
-    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
-    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    parser.add_argument("--timeout", type=int, default=2, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=host_ip, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default=broadcast_address, help="destination ip address to use in the discovery")
     args = parser.parse_args()
     print("Discovering...")
     devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
@@ -236,11 +250,17 @@ def send_command(ip_address, command_id):
             print("Error authenticating with device : {}".format(device.host))
 
 
-def delete_command(ip_address, command_id):
+def delete_command(ip_address, command_id, host_ip):
+    broadcast_address = "255.255.255.255"
+    if host_ip == 'localhost':
+        host_ip=None
+    else:
+        broadcast_address = host_ip[:host_ip.rfind('.')+1] + '255'
+        print(f'broadcast ip is: {broadcast_address}')
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=1, help="timeout to wait for receiving discovery responses")
-    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
-    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    parser.add_argument("--timeout", type=int, default=2, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=host_ip, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default=broadcast_address, help="destination ip address to use in the discovery")
     args = parser.parse_args()
     print("Discovering...")
     devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
@@ -280,11 +300,17 @@ def delete_command(ip_address, command_id):
             print("Error authenticating with device : {}".format(device.host))
 
 
-def rename_device(ip_address, device_name):
+def rename_device(ip_address, device_name, host_ip):
+    broadcast_address = "255.255.255.255"
+    if host_ip == 'localhost':
+        host_ip=None
+    else:
+        broadcast_address = host_ip[:host_ip.rfind('.')+1] + '255'
+        print(f'broadcast ip is: {broadcast_address}')
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
-    parser.add_argument("--timeout", type=int, default=1, help="timeout to wait for receiving discovery responses")
-    parser.add_argument("--ip", default=None, help="ip address to use in the discovery")
-    parser.add_argument("--dst-ip", default="255.255.255.255", help="destination ip address to use in the discovery")
+    parser.add_argument("--timeout", type=int, default=2, help="timeout to wait for receiving discovery responses")
+    parser.add_argument("--ip", default=host_ip, help="ip address to use in the discovery")
+    parser.add_argument("--dst-ip", default=broadcast_address, help="destination ip address to use in the discovery")
     args = parser.parse_args()
     print("Discovering...")
     devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
