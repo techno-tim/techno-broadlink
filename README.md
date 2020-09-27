@@ -7,7 +7,7 @@ A Docker container for Broadlink devices that hosts a Web API and a UI to send c
 ```
 docker run \
   -e HOST_IP=your.docker.host.ip \
-  -p 8080:8080 \
+  -p 9098:9098 \
   -v </path/to/config>:/app/config \
   --network host \
   timothystewart6/techno-broadlink

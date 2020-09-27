@@ -20,12 +20,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/learn",
+					"raw": "http://localhost:9098/learn",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9098",
 					"path": [
 						"learn"
 					]
@@ -49,12 +49,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/discover",
+					"raw": "http://localhost:9098/discover",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9098",
 					"path": [
 						"discover"
 					]
@@ -78,12 +78,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/command",
+					"raw": "http://localhost:9098/command",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9098",
 					"path": [
 						"command"
 					]
@@ -107,12 +107,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/delete",
+					"raw": "http://localhost:9098/delete",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9098",
 					"path": [
 						"delete"
 					]
@@ -136,12 +136,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/delete",
+					"raw": "http://localhost:9098/delete",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "9098",
 					"path": [
 						"delete"
 					]
