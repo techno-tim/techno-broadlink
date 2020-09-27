@@ -1,9 +1,9 @@
 FROM python:3.8.5
 RUN ls
 WORKDIR /app
-COPY api/src/requirements.txt .
-COPY api/src/ .
+ADD api/src/requirements.txt .
+ADD api/src/ .
 RUN pip install -r requirements.txt
-COPY frontend/build .
+ADD frontend/build .
 
 CMD [ "python", "./api.py" ]
