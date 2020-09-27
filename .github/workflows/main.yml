@@ -22,8 +22,11 @@ jobs:
         cd frontend
         yarn install --frozen-lockfile --check-files
         yarn lint
-        yarn build
+        GENERATE_SOURCEMAP=false yarn build
         ls -R
+      env:
+        GENERATE_SOURCEMAP: false
+        CI: true
     - name: Upload ReactJS Build
       uses: actions/upload-artifact@v2
       with:
