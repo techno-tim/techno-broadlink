@@ -3,7 +3,7 @@ name: ci
 on: [push]
 
 jobs:
-  install-and-test-js:
+  js-install-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,7 +23,7 @@ jobs:
       env:
         CI: true
 
-  install-and-test-python:
+  python-install-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -73,9 +73,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: timothystewart6/techno-broadlink:latest
-          tag_with_ref: true
-          tag_with_sha: true
-      -
+          repository: timothystewart6/techno-broadlink
+          tags: latest
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
