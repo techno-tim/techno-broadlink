@@ -62,7 +62,8 @@ jobs:
     needs: [js-install-and-test, python-install-and-test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - 
+        uses: actions/checkout@v2
       -
         name: Show structure
         run: |
