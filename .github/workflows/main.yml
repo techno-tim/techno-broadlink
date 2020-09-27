@@ -1,6 +1,9 @@
-name: ci
+name: CI for releases
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   js-install-and-test:
