@@ -10,7 +10,4 @@ WORKDIR /app
 
 EXPOSE 8080
 
-RUN useradd appuser && chown -R appuser /app
-USER appuser
-
 CMD [ "python", "./api.py" ]
