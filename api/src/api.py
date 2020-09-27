@@ -1,14 +1,16 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS, cross_origin
 
 from broadlink_service import discover_devices, learn_command, send_command, delete_command, rename_device
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='',
+                  static_folder='build',
+                  template_folder='build')
 CORS(app)
 
-
-def handle_bad_request(e):
-    return 'bad request!', 400
+@app.route("/")
+def index():
+    return render_template("index.html", flask_token="Hello   world")
 
 @app.route('/discover', methods=['POST'])
 def discover():
