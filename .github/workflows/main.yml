@@ -75,5 +75,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: timothystewart6/techno-broadlink
           tags: latest
+      -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
