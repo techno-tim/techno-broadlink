@@ -51,7 +51,7 @@ jobs:
     #     pytest
 
   build-and-push-docker-image:
-    needs: [install-and-test-js, install-and-test-python]
+    needs: [js-install-and-test, python-install-and-test]
     runs-on: ubuntu-latest
     steps:
       -
