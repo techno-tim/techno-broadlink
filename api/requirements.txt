@@ -1,10 +1,10 @@
-# local import of self
-./
+asn1crypto==1.4.0
 astroid==2.4.2
 broadlink==0.14.1
+broadlink-service==0.0.2
 cffi==1.14.3
 click==7.1.2
-cryptography==3.1.1
+cryptography==2.6.1
 deepmerge==0.1.0
 Flask==1.1.2
 Flask-Cors==3.0.9
