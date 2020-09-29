@@ -144,7 +144,7 @@ export const requestRenameDevice = (ipAddress, deviceName) => {
   };
 };
 
-// this debouces the thunk for 2 sec
+// this debouces the thunk for 1.5 sec
 export const deboucedRequestRenameDevice = debounce(
   async (ipAddress, deviceName, dispatch) => {
     dispatch(setIsBusy(true));
@@ -157,5 +157,5 @@ export const deboucedRequestRenameDevice = debounce(
       });
     });
   },
-  2000
+  1500
 );

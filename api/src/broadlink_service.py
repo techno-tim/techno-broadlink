@@ -46,7 +46,6 @@ def write_json_file(file, data):
         json.dump(data, json_file)
         print('Updated file')
 
-
 def discover_devices(host_ip):
     broadcast_address = "255.255.255.255"
     if host_ip == 'localhost':
@@ -54,7 +53,6 @@ def discover_devices(host_ip):
     else:
         broadcast_address = host_ip[:host_ip.rfind('.')+1] + '255'
         print(f'broadcast ip is: {broadcast_address}')
-
 
     device_list = []
     parser = argparse.ArgumentParser(fromfile_prefix_chars='@')
@@ -84,20 +82,34 @@ def discover_devices(host_ip):
                 "commands": [],
                 "name": '',
             }
-            device_list.append(my_device)
             file_name = mac_address + '.json'
             script_dir = os.path.dirname(__file__)
             file_path = os.path.join(script_dir, './config/')
             file_with_path = file_path + file_name
             if os.path.exists(file_with_path):
                 # we need to merge
+                # this is so ugly
                 print('File exists, need to merge')
                 with open(file_with_path) as existing_file:
                     data = json.load(existing_file)
                     if data and data['mac']:
                         # we have a mac address in the file, should be a valid file
                         # merge new data into old
-                        merged_device = always_merger.merge(my_device, data)
+                        my_device = {
+                            "ip": device.host[0],
+                            "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
+                            "model": device.model,
+                            "manufacturer": device.manufacturer,
+                            "commands": data['commands'] or [],
+                            "name": data['name'] or ''
+                        }
+                        device_list.append(my_device)
+                        merged_device = always_merger.merge(data, my_device)
+                        unique_commands = []
+                        for i in range(len(my_device['commands'])):
+                            if my_device['commands'][i] not in my_device['commands'][i + 1:]:
+                                unique_commands.append(my_device['commands'][i])
+                        merged_device['commands'] = unique_commands
                         write_json_file(file_with_path, merged_device)
                     else:
                         # not a vlid mac, we need to just write data
@@ -107,6 +119,7 @@ def discover_devices(host_ip):
                 # just write
                 print('File does not exist, creating')
                 write_json_file(file_with_path, my_device)
+                device_list.append(my_device)
         else:
             print("Error authenticating with device : {}".format(device.host))
 

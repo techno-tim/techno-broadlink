@@ -1,11 +1,24 @@
 import os
 import fileinput
 import fnmatch
+import socket
 
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS, cross_origin
 
 from broadlink_service import discover_devices, learn_command, send_command, delete_command, rename_device
+
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
 
 # this is a workaround for passing the server IP into a client side reactjs app
 host_ip =os.environ.get('HOST_IP')
@@ -24,7 +37,11 @@ if host_ip:
 else:
     print(f'{host_ip} does not exist')
     print(f'setting host_ip to localhost')
-    host_ip='localhost'
+    host_ip = get_ip()
+    if (host_ip == '127.0.0.1'):
+        host_ip='localhost'
+
+
 
 app = Flask(__name__, static_url_path='',
                   static_folder='build',

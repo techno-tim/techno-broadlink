@@ -17,6 +17,13 @@
             "name": "Frontend with Chrome",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}"
-          }
+        },
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        }
     ]
 }
