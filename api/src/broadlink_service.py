@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# please excuse the mess
+# first time writing python and this was a PoC that became real
+
 import argparse
 import time
 import codecs
