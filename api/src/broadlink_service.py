@@ -205,6 +205,9 @@ def learn_command(ip_address, command_name, host_ip):
                                     "model": device.model,
                                     "manufacturer": device.manufacturer,
                                     "commands": [{ "id": str(uuid.uuid4()), "name": command_name, "data": learned }],
+                                    "name": data['name'],
+                                    "temperature": data['temperature'],
+                                    "humidity": data['humidity']
                                 }
                                 # we have a mac address in the file, should be a valid file
                                 # merge new data into old
@@ -319,6 +322,8 @@ def delete_command(ip_address, command_id, host_ip):
                                 "manufacturer": data['manufacturer'],
                                 "commands": remaining_commands,
                                 "name": data['name'],
+                                "temperature": data['temperature'],
+                                "humidity": data['humidity']
                             }
                             write_json_file(file_with_path, updated_device)
                             return updated_device
