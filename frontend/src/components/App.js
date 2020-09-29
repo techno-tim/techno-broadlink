@@ -12,6 +12,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
@@ -51,6 +52,13 @@ function App() {
     dispatch(setShowAlert('success', '', false));
   };
 
+  const handleHomeClick = () => {
+    window.location = window.location.href;
+  };
+
+  const handleDocumentationClick = () => {
+    window.location = '/';
+  };
   const Alert = props => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   };
@@ -59,9 +67,21 @@ function App() {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Broadlink Control
-          </Typography>
+          <Grid container alignItems="baseline">
+            <ButtonBase onClick={handleHomeClick} disableRipple>
+              <Typography variant="h6" className={classes.title}>
+                Broadlink Control
+              </Typography>
+            </ButtonBase>
+
+            <Box pl={2}>
+              <ButtonBase onClick={handleDocumentationClick} disableRipple>
+                <Typography variant="subtitle2" className={classes.title}>
+                  Documentation
+                </Typography>
+              </ButtonBase>
+            </Box>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Fade in={isBusy}>

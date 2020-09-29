@@ -1,12 +1,14 @@
-import os
 import fileinput
 import fnmatch
+import os
 import socket
 
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS, cross_origin
 
-from broadlink_service import discover_devices, learn_command, send_command, delete_command, rename_device
+from broadlink_service import (delete_command, discover_devices, learn_command,
+                               rename_device, send_command)
+
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
