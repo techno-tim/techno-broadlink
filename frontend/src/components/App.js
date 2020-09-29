@@ -118,6 +118,8 @@ function App() {
                   ip={device.ip}
                   mac={device.mac}
                   name={device.name}
+                  temperature={device.temperature}
+                  humidity={device.humidity}
                   selected={selectedDevice && selectedDevice.mac === device.mac}
                   manufacturer={device.manufacturer}
                   model={device.model}

@@ -68,11 +68,22 @@ def discover_devices(host_ip):
         print(f'found {devices}')
         if device.auth():
             # devices.append(device)
+            temperature = None
+            humidity = None
             print("###########################################")
             print(device.type)
             print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
                                                                         ''.join(format(x, '02x') for x in device.mac)))
             print("Device file data (to be used with --device @filename in broadlink_cli) : ")
+            try:
+                print("sensors = {}".format(device.check_sensors()))
+                sensors = device.check_sensors()
+                temperature = sensors['temperature']
+                humidity = sensors['humidity']
+            except (AttributeError, StorageError):
+                pass
+                print("")
+
             mac_address = ''.join(format(x, '02x') for x in device.mac)
             my_device = {
                 "ip": device.host[0],
@@ -101,7 +112,9 @@ def discover_devices(host_ip):
                             "model": device.model,
                             "manufacturer": device.manufacturer,
                             "commands": data['commands'] or [],
-                            "name": data['name'] or ''
+                            "name": data['name'] or '',
+                            "temperature": temperature,
+                            "humidity": humidity
                         }
                         device_list.append(my_device)
                         merged_device = always_merger.merge(data, my_device)

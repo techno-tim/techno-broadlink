@@ -25,6 +25,8 @@ export default function Device(props) {
     handleClick,
     disabled,
     handleChange,
+    temperature,
+    humidity,
   } = props;
   return (
     <ButtonBase onClick={handleClick} disableRipple disabled={disabled}>
@@ -43,6 +45,17 @@ export default function Device(props) {
             onChange={handleChange}
             disabled={disabled}
           />
+          {temperature && (
+            <Typography variant="body2" component="p">
+              {temperature}°
+            </Typography>
+          )}
+          {humidity && (
+            <Typography variant="body2" component="p">
+              {humidity} RH
+            </Typography>
+          )}
+
           <Typography className={classes.pos} color="textSecondary">
             {manufacturer}
           </Typography>
