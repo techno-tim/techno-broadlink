@@ -53,11 +53,11 @@ function App() {
   };
 
   const handleHomeClick = () => {
-    window.location = window.location.href;
+    window.location = '/';
   };
 
   const handleDocumentationClick = () => {
-    window.location = '/';
+    window.location = 'https://github.com/techno-tim/techno-broadlink';
   };
   const Alert = props => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
