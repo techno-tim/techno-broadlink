@@ -21,6 +21,8 @@ docker run \
   timothystewart6/techno-broadlink
 ```
 
+The Docker image is [here](https://hub.docker.com/repository/docker/timothystewart6/techno-broadlink)
+
 ## Web UI
 
 The web UI will be hosted on port `10981`.
