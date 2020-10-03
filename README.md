@@ -6,6 +6,10 @@ A Docker container for Broadlink devices that hosts a Web API and a UI to send c
 
 For instructions, please see https://www.youtube.com/watch?v=4MJW29mR-Xc
 
+## Device Support
+
+I have tested this with an RM3 and RM4.  In thoery, all devices listed [here](https://github.com/mjg59/python-broadlink/blob/master/broadlink/__init__.py) should work.
+
 ## Usage
 
 ```
