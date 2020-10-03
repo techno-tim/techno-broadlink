@@ -21,9 +21,7 @@ docker run \
 
 The web UI will be hosted on port `10981`.
 
-
-
-
+![alt text](https://github.com/techno-tim/techno-broadlink/blob/master/techno-broadlink.jpg?raw=true)
 
 ## Web API
 
