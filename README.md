@@ -17,6 +17,20 @@ docker run \
   timothystewart6/techno-broadlink
 ```
 
+## Web UI
+
+The web UI will be hosted on port `10981`.
+
+
+
+
+
+## Web API
+
+The web API will be hosted on port `10981`.  I have included a Postman collection [here](https://github.com/techno-tim/techno-broadlink/tree/master/postman)
+
+
+
 ## Credits
 Created by Techno Tim with 💛
 
