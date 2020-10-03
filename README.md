@@ -4,7 +4,7 @@
 
 A Docker container for Broadlink devices that hosts a Web API and a UI to send commands locally.
 
-For instructions, please see https://www.youtube.com/c/TechnoTimLive
+For instructions, please see https://www.youtube.com/watch?v=4MJW29mR-Xc
 
 ## Usage
 
