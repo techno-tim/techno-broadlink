@@ -2,13 +2,13 @@
 
 # techno-broadlink
 
-A Docker container for Broadlink devices that hosts a Web API and a UI to send commands locally.
+A Docker container for BroadLink devices that hosts an HTTP Web API and a UI to send commands to devices on your local network.
 
 For instructions, please see https://www.youtube.com/watch?v=4MJW29mR-Xc
 
 ## Device Support
 
-I have tested this with an RM3 and RM4.  In thoery, all devices listed [here](https://github.com/mjg59/python-broadlink/blob/master/broadlink/__init__.py) should work.
+I have tested this with an RM3 and RM4.  In theory, all devices listed [here](https://github.com/mjg59/python-broadlink/blob/master/broadlink/__init__.py) should work.
 
 ## Usage
 
