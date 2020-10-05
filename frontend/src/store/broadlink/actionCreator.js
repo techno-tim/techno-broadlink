@@ -12,6 +12,7 @@ import {
   setShowAlert,
   setLearnOpen,
   setLearnInput,
+  setDeleteOpen,
 } from '../layout/actionCreator';
 import {
   DELETE_COMMAND,
@@ -129,6 +130,7 @@ export const requestDeleteCommand = (ipAddress, commandId) => {
           dispatch(setIsBusy(false));
           dispatch(setSelectedDevice(data.value));
           dispatch(setShowAlert('success', `Deleted command!`, true));
+          dispatch(setDeleteOpen(false));
         });
       })
       .catch(() => {

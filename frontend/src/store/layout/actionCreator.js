@@ -3,6 +3,7 @@ import {
   SET_SHOW_ALERT,
   SET_LEARN_OPEN,
   SET_LEARN_INPUT,
+  SET_DELETE_OPEN,
 } from './actionType';
 
 export const setIsBusy = isBusy => {
@@ -37,6 +38,15 @@ export const setLearnInput = learnInput => {
     await dispatch({
       type: SET_LEARN_INPUT,
       payload: { learnInput },
+    });
+  };
+};
+
+export const setDeleteOpen = deleteOpen => {
+  return async dispatch => {
+    await dispatch({
+      type: SET_DELETE_OPEN,
+      payload: { deleteOpen },
     });
   };
 };

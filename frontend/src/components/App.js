@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,11 +29,13 @@ import {
   setShowAlert,
   setLearnOpen,
   setLearnInput,
+  setDeleteOpen,
 } from '../store/layout/actionCreator';
 import Device from './Device';
 import SkeletonDevice from './SkeletonDevice';
 import CommandList from './CommandList';
 import LearnDialog from './LearnDialog';
+import DeleteDialog from './DeleteDialog';
 
 function App() {
   const classes = useStyles();
@@ -43,7 +45,8 @@ function App() {
     dispatch(requestDevices());
   }, [dispatch]);
 
-  const { isBusy, alert, learnOpen, learnInput } = useSelector(
+  const [selectedCommandId, setSelectedCommandId] = useState();
+  const { isBusy, alert, learnOpen, learnInput, deleteOpen } = useSelector(
     state => state.layout
   );
   const { devices, selectedDevice } = useSelector(state => state.broadlink);
@@ -180,9 +183,10 @@ function App() {
                 handleSendClick={commandId =>
                   dispatch(requestSendCommand(selectedDevice.ip, commandId))
                 }
-                handleDeleteClick={commandId =>
-                  dispatch(requestDeleteCommand(selectedDevice.ip, commandId))
-                }
+                handleDeleteClick={commandId => {
+                  dispatch(setDeleteOpen(true));
+                  setSelectedCommandId(commandId);
+                }}
                 disabled={isBusy}
               />
             </Box>
@@ -218,6 +222,19 @@ function App() {
           learnDisabled={!learnInput || isBusy}
           cancelDisabled={isBusy}
           inputDisabled={isBusy}
+        />
+        <DeleteDialog
+          open={deleteOpen}
+          handleClose={() => {
+            dispatch(setDeleteOpen(false));
+          }}
+          handleDelete={() => {
+            dispatch(
+              requestDeleteCommand(selectedDevice.ip, selectedCommandId)
+            );
+            setSelectedCommandId(undefined);
+          }}
+          disabled={isBusy}
         />
       </Box>
     </>

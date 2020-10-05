@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import {
+  SET_DELETE_OPEN,
   SET_IS_BUSY,
   SET_LEARN_INPUT,
   SET_LEARN_OPEN,
@@ -15,6 +16,7 @@ export const initialState = {
   },
   learnOpen: false,
   learnInput: '',
+  deleteOpen: false,
 };
 
 export default function layoutReducer(state = initialState, action = {}) {
@@ -60,6 +62,15 @@ export default function layoutReducer(state = initialState, action = {}) {
       return update(state, {
         learnInput: {
           $set: learnInput,
+        },
+      });
+    }
+    case SET_DELETE_OPEN: {
+      const { payload } = action;
+      const { deleteOpen } = payload;
+      return update(state, {
+        deleteOpen: {
+          $set: deleteOpen,
         },
       });
     }
