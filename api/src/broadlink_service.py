@@ -81,8 +81,9 @@ def discover_devices(host_ip):
             try:
                 print("sensors = {}".format(device.check_sensors()))
                 sensors = device.check_sensors()
-                temperature = sensors['temperature']
-                humidity = sensors['humidity']
+                if sensors:
+                    temperature = sensors['temperature']
+                    humidity = sensors['humidity']
             except (AttributeError, StorageError):
                 pass
                 print("")
