@@ -84,7 +84,7 @@ def discover_devices(host_ip):
                 if sensors:
                     temperature = sensors['temperature']
                     humidity = sensors['humidity']
-            except (AttributeError, StorageError):
+            except (AttributeError, StorageError, KeyError):
                 pass
                 print("")
 
