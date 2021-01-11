@@ -31,7 +31,7 @@ The web UI will be hosted on port `10981`.
 
 ## Web API
 
-The web API will be hosted on port `10981`.  I have included a Postman collection [here](https://github.com/techno-tim/techno-broadlink/tree/master/postman)
+The web API will be hosted on port `10981`.  I included a Postman collection [here](https://github.com/techno-tim/techno-broadlink/tree/master/postman)
 
 
 
