@@ -4,13 +4,13 @@ astroid==2.4.2
 broadlink==0.15.0
 cffi==1.14.3
 click==7.1.2
-cryptography==2.6.1
+cryptography==3.3.2
 deepmerge==0.1.0
 Flask==1.1.2
 Flask-Cors==3.0.9
 isort==5.5.3
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
