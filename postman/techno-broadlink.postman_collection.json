@@ -70,7 +70,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandId\": \"12312313213123\"\r\n}",
+					"raw": "{\r\n    \"ipAddress\": \"192.168.0.98\",\r\n    \"commandId\": \"12312313213124\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
