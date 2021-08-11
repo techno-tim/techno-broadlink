@@ -68,77 +68,83 @@ def discover_devices(host_ip):
     devices = broadlink.discover(timeout=args.timeout, local_ip_address=args.ip, discover_ip_address=args.dst_ip)
     print(f'devices {devices}')
     for device in devices:
-        print(f'found {devices}')
-        if device.auth():
-            # devices.append(device)
-            temperature = None
-            humidity = None
-            print("###########################################")
-            print(device.type)
-            print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
-                                                                        ''.join(format(x, '02x') for x in device.mac)))
-            print("Device file data (to be used with --device @filename in broadlink_cli) : ")
-            try:
-                print("sensors = {}".format(device.check_sensors()))
-                sensors = device.check_sensors()
-                if sensors:
-                    temperature = sensors['temperature']
-                    humidity = sensors['humidity']
-            except (AttributeError, StorageError, KeyError):
-                pass
-                print("")
+        print(f'found {device}')
+        try: 
+            auth_state = device.auth()
+        except Exception as e:
+            print(f"Device failed to authenticate with error {e}")
+        
+        else: 
+            if auth_state:
+                # devices.append(device)
+                temperature = None
+                humidity = None
+                print("###########################################")
+                print(device.type)
+                print("# broadlink_cli --type {} --host {} --mac {}".format(hex(device.devtype), device.host[0],
+                                                                            ''.join(format(x, '02x') for x in device.mac)))
+                print("Device file data (to be used with --device @filename in broadlink_cli) : ")
+                try:
+                    print("sensors = {}".format(device.check_sensors()))
+                    sensors = device.check_sensors()
+                    if sensors:
+                        temperature = sensors['temperature']
+                        humidity = sensors['humidity']
+                except (AttributeError, StorageError, KeyError):
+                    pass
+                    print("")
 
-            mac_address = ''.join(format(x, '02x') for x in device.mac)
-            my_device = {
-                "ip": device.host[0],
-                "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
-                "model": device.model,
-                "manufacturer": device.manufacturer,
-                "commands": [],
-                "name": '',
-            }
-            file_name = mac_address + '.json'
-            script_dir = os.path.dirname(__file__)
-            file_path = os.path.join(script_dir, './config/')
-            file_with_path = file_path + file_name
-            if os.path.exists(file_with_path):
-                # we need to merge
-                # this is so ugly
-                print('File exists, need to merge')
-                with open(file_with_path) as existing_file:
-                    data = json.load(existing_file)
-                    if data and data['mac']:
-                        # we have a mac address in the file, should be a valid file
-                        # merge new data into old
-                        my_device = {
-                            "ip": device.host[0],
-                            "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
-                            "model": device.model,
-                            "manufacturer": device.manufacturer,
-                            "commands": data['commands'] or [],
-                            "name": data['name'] or '',
-                            "temperature": temperature,
-                            "humidity": humidity
-                        }
-                        device_list.append(my_device)
-                        merged_device = always_merger.merge(data, my_device)
-                        unique_commands = []
-                        for i in range(len(my_device['commands'])):
-                            if my_device['commands'][i] not in my_device['commands'][i + 1:]:
-                                unique_commands.append(my_device['commands'][i])
-                        merged_device['commands'] = unique_commands
-                        write_json_file(file_with_path, merged_device)
-                    else:
-                        # not a vlid mac, we need to just write data
-                        write_json_file(file_with_path, my_device)
+                mac_address = ''.join(format(x, '02x') for x in device.mac)
+                my_device = {
+                    "ip": device.host[0],
+                    "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
+                    "model": device.model,
+                    "manufacturer": device.manufacturer,
+                    "commands": [],
+                    "name": '',
+                }
+                file_name = mac_address + '.json'
+                script_dir = os.path.dirname(__file__)
+                file_path = os.path.join(script_dir, './config/')
+                file_with_path = file_path + file_name
+                if os.path.exists(file_with_path):
+                    # we need to merge
+                    # this is so ugly
+                    print('File exists, need to merge')
+                    with open(file_with_path) as existing_file:
+                        data = json.load(existing_file)
+                        if data and data['mac']:
+                            # we have a mac address in the file, should be a valid file
+                            # merge new data into old
+                            my_device = {
+                                "ip": device.host[0],
+                                "mac": ':'.join(mac_address[i:i+2] for i in range(0, len(mac_address), 2)),
+                                "model": device.model,
+                                "manufacturer": device.manufacturer,
+                                "commands": data['commands'] or [],
+                                "name": data['name'] or '',
+                                "temperature": temperature,
+                                "humidity": humidity
+                            }
+                            device_list.append(my_device)
+                            merged_device = always_merger.merge(data, my_device)
+                            unique_commands = []
+                            for i in range(len(my_device['commands'])):
+                                if my_device['commands'][i] not in my_device['commands'][i + 1:]:
+                                    unique_commands.append(my_device['commands'][i])
+                            merged_device['commands'] = unique_commands
+                            write_json_file(file_with_path, merged_device)
+                        else:
+                            # not a vlid mac, we need to just write data
+                            write_json_file(file_with_path, my_device)
 
+                else:
+                    # just write
+                    print('File does not exist, creating')
+                    write_json_file(file_with_path, my_device)
+                    device_list.append(my_device)
             else:
-                # just write
-                print('File does not exist, creating')
-                write_json_file(file_with_path, my_device)
-                device_list.append(my_device)
-        else:
-            print("Error authenticating with device : {}".format(device.host))
+                print("Error authenticating with device : {}".format(device.host))
 
     return device_list
 
