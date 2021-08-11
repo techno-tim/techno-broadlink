@@ -60,7 +60,7 @@ function App() {
   };
 
   const handleDocumentationClick = () => {
-    window.location = 'https://github.com/techno-tim/techno-broadlink';
+    window.location = 'https://automacaoraceland.pt';
   };
   const Alert = props => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
