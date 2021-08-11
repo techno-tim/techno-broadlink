@@ -1,6 +1,7 @@
 *.pyc
 output/
 __pycache__
+build
 api/config
 api/src/config
 node_modules
