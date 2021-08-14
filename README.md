@@ -42,6 +42,8 @@ This would not be possible without [mjg59/python-broadlink](https://github.com/m
 
 🔔 Social Media 🔔
 
+► YouTube https://www.youtube.com/channel/UCOk-gHyjcWZNj3Br4oxwh0A
+
 ► Twitch https://www.twitch.tv/TechnoTim
 
 ► Twitter  https://twitter.com/TechnoTimLive
