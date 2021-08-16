@@ -30,11 +30,6 @@ jobs:
       env:
         GENERATE_SOURCEMAP: false
         CI: true
-    - name: Upload ReactJS Build
-      uses: actions/upload-artifact@v2
-      with:
-        name: build
-        path: frontend/build/
 
   python-install-and-test:
     runs-on: ubuntu-latest
