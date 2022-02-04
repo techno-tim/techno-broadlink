@@ -33,26 +33,24 @@ The web UI will be hosted on port `10981`.
 
 The web API will be hosted on port `10981`.  I included a Postman collection [here](https://github.com/techno-tim/techno-broadlink/tree/master/postman)
 
-
-
 ## Credits
+
 Created by Techno Tim with 💛
 
 This would not be possible without [mjg59/python-broadlink](https://github.com/mjg59/python-broadlink) which is used by [Home Assistant](https://www.home-assistant.io/).
 
 🔔 Social Media 🔔
 
-► YouTube https://www.youtube.com/channel/UCOk-gHyjcWZNj3Br4oxwh0A
+► YouTube <https://www.youtube.com/channel/UCOk-gHyjcWZNj3Br4oxwh0A>
 
-► Twitch https://www.twitch.tv/TechnoTim
+► Twitch <https://www.twitch.tv/TechnoTim>
 
-► Twitter  https://twitter.com/TechnoTimLive
+► Twitter  <https://twitter.com/TechnoTimLive>
 
-► Discord https://l.technotim.live/discord
+► Discord <https://l.technotim.live/discord>
 
-► Instagram https://www.instagram.com/techno.tim/
+► Instagram <https://www.instagram.com/techno.tim/>
 
-► Facebook https://www.facebook.com/TechnoTimLive/
+► Facebook <https://www.facebook.com/TechnoTimLive/>
 
-► GitHub https://github.com/timothystewart6
-
+► GitHub <https://github.com/timothystewart6>
