@@ -1,7 +1,9 @@
 FROM node:16-alpine as frontend
 WORKDIR /build
+ARG GENERATE_SOURCEMAP=false
 COPY frontend .
-RUN yarn install
+RUN yarn install --frozen-lockfile --check-files
+RUN yarn lint
 RUN yarn build
 
 FROM python:3.8
