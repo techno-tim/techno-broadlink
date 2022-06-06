@@ -5,7 +5,7 @@ broadlink==0.18.2
 cffi==1.14.3
 click==7.1.2
 cryptography==3.4.8
-deepmerge==0.1.0
+deepmerge==0.3.0
 Flask==1.1.4
 Flask-Cors==3.0.10
 isort==5.5.3
