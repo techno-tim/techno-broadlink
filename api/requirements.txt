@@ -5,7 +5,7 @@ broadlink==0.15.0
 cffi==1.14.3
 click==7.1.2
 cryptography==3.4.8
-deepmerge==0.1.0
+deepmerge==0.3.0
 Flask==1.1.4
 Flask-Cors==3.0.10
 isort==5.5.3
@@ -14,9 +14,9 @@ Jinja2==2.11.3
 lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
-pycparser==2.20
+pycparser==2.21
 pylint==2.6.0
-six==1.15.0
+six==1.16.0
 toml==0.10.2
 waitress==2.1.2
 Werkzeug==1.0.1
