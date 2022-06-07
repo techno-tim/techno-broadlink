@@ -2,13 +2,13 @@
 asn1crypto==1.4.0
 astroid==2.4.2
 broadlink==0.18.2
-cffi==1.14.3
+cffi==1.15.0
 click==7.1.2
 cryptography==3.4.8
 deepmerge==0.3.0
 Flask==1.1.4
 Flask-Cors==3.0.10
-isort==5.5.3
+isort==5.10.1
 itsdangerous==1.1.0
 Jinja2==2.11.3
 lazy-object-proxy==1.4.3
