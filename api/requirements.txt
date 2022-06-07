@@ -20,4 +20,4 @@ six==1.16.0
 toml==0.10.2
 waitress==2.1.2
 Werkzeug==1.0.1
-wrapt==1.12.1
+wrapt==1.14.1
