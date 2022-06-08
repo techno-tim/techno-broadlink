@@ -1,6 +1,6 @@
 ./
 asn1crypto==1.5.1
-astroid==2.4.2
+astroid==2.11.5
 broadlink==0.18.2
 cffi==1.15.0
 click==7.1.2
