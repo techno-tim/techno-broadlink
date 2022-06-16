@@ -15,7 +15,7 @@ lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
 pycparser==2.21
-pylint==2.6.0
+pylint==2.14.2
 six==1.16.0
 toml==0.10.2
 waitress==2.1.2
