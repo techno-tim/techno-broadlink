@@ -15,9 +15,10 @@ jobs:
       matrix:
         node-version: [v16.16.0]  
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # 3.0.2
+
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@master
+      uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies, Test, and Build
@@ -37,9 +38,10 @@ jobs:
       matrix:
         python-version: [3.8.5]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # 3.0.2
+
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 #4.0.2
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
