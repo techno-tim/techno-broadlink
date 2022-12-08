@@ -51,7 +51,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.1",
     "redux-devtools-extension": "^2.13.8"
   },
   "husky": {
