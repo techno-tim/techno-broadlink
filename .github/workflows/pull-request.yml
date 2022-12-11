@@ -10,7 +10,7 @@ on:
 
 jobs:
   js-install-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         node-version: [v18.12.1]  
@@ -34,7 +34,7 @@ jobs:
         CI: true
 
   python-install-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       PYTHON_VERSION: "3.8.5"
 
