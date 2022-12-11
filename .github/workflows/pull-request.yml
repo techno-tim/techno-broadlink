@@ -36,7 +36,7 @@ jobs:
   python-install-and-test:
     runs-on: ubuntu-22.04
     env:
-      PYTHON_VERSION: "3.10"
+      PYTHON_VERSION: "3.11"
 
     steps:
       - name: Check out the codebase
@@ -48,7 +48,7 @@ jobs:
         uses: actions/setup-python@2c3dd9e7e29afd70cc0950079bde6c979d1f69f9 # 4.3.1
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          # cache: 'pip' # caching pip dependencies
+          cache: 'pip' # caching pip dependencies
 
       - name: Cache pip
         uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # 3.0.11
