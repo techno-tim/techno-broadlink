@@ -18,9 +18,10 @@ jobs:
     - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # 3.0.2
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@2fddd8803e2f5c9604345a0b591c3020ee971a93
+      uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # 3.5.1
       with:
         node-version: ${{ matrix.node-version }}
+
     - name: Install Dependencies, Test, and Build
       run: |
         cd frontend
@@ -33,29 +34,40 @@ jobs:
         CI: true
 
   python-install-and-test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8.5]
-    steps:
-    - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # 3.0.2
+    runs-on: ubuntu-22.04
+    env:
+      PYTHON_VERSION: "3.11"
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 #4.0.2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        cd api
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    # - name: Test with pytest
-    #   run: |
-    #     pytest
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@e2f20e631ae6d7dd3b768f56a5d2af784dd54791 # v3 2.5.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@2c3dd9e7e29afd70cc0950079bde6c979d1f69f9 # 4.3.1
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip' # caching pip dependencies
+
+      - name: Cache pip
+        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7 # 3.0.11
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('./requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      
+      - name: Install dependencies
+        run: |
+          cd api
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      # - name: Lint with flake8
+      #   run: |
+      #     # stop the build if there are Python syntax errors or undefined names
+      #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+      #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics

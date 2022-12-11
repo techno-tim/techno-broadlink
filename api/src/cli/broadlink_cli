@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
+# flake8: noqa
 
 import argparse
 import base64
 import codecs
 import time
-
 import broadlink
 from broadlink.exceptions import ReadError, StorageError
 

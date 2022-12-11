@@ -1,7 +1,8 @@
+# flake8: noqa
 import broadlink as blk
 
 d = blk.hello("192.168.0.98")  # Device IP address.
-print (d)
+print(d)
 d.hello()
 devices = blk.discover(timeout=10, local_ip_address="192.168.0.150")
 

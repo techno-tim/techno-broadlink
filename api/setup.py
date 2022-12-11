@@ -1,6 +1,6 @@
 # #!/usr/bin/env python
 # # -*- coding: utf-8 -*-
-
+# flake8: noqa
 from setuptools import setup, find_packages
 
 version = '0.0.2'
