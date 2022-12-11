@@ -36,7 +36,7 @@ jobs:
   python-install-and-test:
     runs-on: ubuntu-latest
     env:
-      PYTHON_VERSION: "3.10"
+      PYTHON_VERSION: "3.8.5"
 
     steps:
       - name: Check out the codebase
