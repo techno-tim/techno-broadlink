@@ -13,25 +13,24 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [v18.12.1]  
+        node-version: [v18.13.0]
     steps:
-    - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # 3.0.2
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # 3.5.1
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Install Dependencies, Test, and Build
-      run: |
-        cd frontend
-        yarn install --frozen-lockfile --check-files
-        yarn lint
-        GENERATE_SOURCEMAP=false yarn build
-        ls -R
-      env:
-        GENERATE_SOURCEMAP: false
-        CI: true
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b  # 3.0.2
+      - name: Use Node.js ${{ matrix.node-version }}
+        # yamllint disable-line rule:line-length
+        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516  # 3.5.1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies, Test, and Build
+        run: |
+          cd frontend
+          yarn install --frozen-lockfile --check-files
+          yarn lint
+          GENERATE_SOURCEMAP=false yarn build
+          ls -R
+        env:
+          GENERATE_SOURCEMAP: false
+          CI: true
 
   python-install-and-test:
     runs-on: ubuntu-22.04
@@ -40,12 +39,14 @@ jobs:
 
     steps:
       - name: Check out the codebase
-        uses: actions/checkout@e2f20e631ae6d7dd3b768f56a5d2af784dd54791 # v3 2.5.0
+        # yamllint disable-line rule:line-length
+        uses: actions/checkout@e2f20e631ae6d7dd3b768f56a5d2af784dd54791  # v3 2.5.0
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set up Python ${{ env.PYTHON_VERSION }}
-        uses: actions/setup-python@2c3dd9e7e29afd70cc0950079bde6c979d1f69f9 # 4.3.1
+        # yamllint disable-line rule:line-length
+        uses: actions/setup-python@2c3dd9e7e29afd70cc0950079bde6c979d1f69f9  # 4.3.1
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip' # caching pip dependencies
@@ -57,7 +58,6 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('./requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      
       - name: Install dependencies
         run: |
           cd api

@@ -11,8 +11,8 @@ updates:
       interval: "daily"
     rebase-strategy: "auto"
     ignore:
-    - dependency-name: "*"
-      update-types: ["version-update:semver-major"]
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
 
   # - package-ecosystem: "pip" # See documentation for possible values
   #   directory: "/api" # Location of package manifests
