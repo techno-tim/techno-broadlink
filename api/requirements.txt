@@ -4,7 +4,7 @@ astroid==2.4.2
 broadlink==0.18.2
 cffi==1.15.0
 click==7.1.2
-cryptography==41.0.4
+cryptography==41.0.6
 deepmerge==0.3.0
 Flask==1.1.4
 Flask-Cors==3.0.10
