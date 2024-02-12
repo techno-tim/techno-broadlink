@@ -3,6 +3,7 @@ WORKDIR /app
 COPY api/requirements.txt .
 COPY api/setup.py .
 COPY api/src .
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 WORKDIR /app/build
 COPY frontend/build .
