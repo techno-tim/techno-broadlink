@@ -12,7 +12,7 @@ updates:
     rebase-strategy: "auto"
     ignore:
       - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+        update-types: ["version-update:semver-minor"]
 
   # - package-ecosystem: "pip" # See documentation for possible values
   #   directory: "/api" # Location of package manifests
